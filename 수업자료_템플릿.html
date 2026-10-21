@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>수업 자료 템플릿</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
+<style id="pageStyle"></style>
+<style>
+:root{
+  --pri:#2b5ce6; --pri-d:#1d43b0; --pri-l:#eaf0ff;
+  --bg:#f4f6fb; --card:#fff; --line:#e2e6ef; --ink:#1d2433; --sub:#5d6678;
+  --o:#1f9d55; --o-l:#e3f6ea; --x:#e03e3e; --x-l:#fde8e8; --kw:#d9480f; --warn:#fff4d6;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Pretendard,'Malgun Gothic','Apple SD Gothic Neo',system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.6}
+button,input,textarea,select{font:inherit;color:inherit}
+a{color:var(--pri)}
+
+/* ---------- 상단 바 ---------- */
+.topbar{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--line)}
+.topbar-in{max-width:1180px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.brand{font-weight:800;font-size:18px;display:flex;align-items:center;gap:8px;margin-right:auto}
+.brand small{font-weight:500;color:var(--sub);font-size:13px}
+.tabs{display:flex;gap:4px;background:var(--bg);padding:4px;border-radius:10px}
+.tabs button{border:0;background:none;padding:7px 14px;border-radius:8px;cursor:pointer;font-weight:600;color:var(--sub)}
+.tabs button.on{background:#fff;color:var(--pri);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.tools{display:flex;gap:6px;flex-wrap:wrap}
+.teacher-band{display:none;background:var(--warn);border-bottom:1px solid #f1d98a;font-size:13px;text-align:center;padding:5px 12px;color:#7a5b00}
+body.teacher .teacher-band{display:block}
+
+.btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:#fff;padding:7px 12px;border-radius:8px;cursor:pointer;font-weight:600;font-size:14px;white-space:nowrap;text-decoration:none;color:var(--ink)}
+.btn:hover{border-color:var(--pri);color:var(--pri)}
+.btn.pri{background:var(--pri);border-color:var(--pri);color:#fff}
+.btn.pri:hover{background:var(--pri-d);color:#fff}
+.btn.warn{background:#ffd43b;border-color:#f0c419;color:#5c4400}
+.btn.sm{padding:4px 9px;font-size:13px}
+.btn.del{color:var(--x)}
+.btn.del:hover{border-color:var(--x)}
+.btn:disabled{opacity:.4;cursor:default}
+
+/* ---------- 레이아웃 ---------- */
+main{max-width:1180px;margin:0 auto;padding:20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin-bottom:16px}
+.card h2{margin:0 0 12px;font-size:18px;display:flex;align-items:center;gap:8px}
+.card h2 .count{font-size:13px;color:var(--sub);font-weight:500}
+.card h2 .right{margin-left:auto;display:flex;gap:6px}
+.hint{font-size:13px;color:var(--sub);margin:4px 0 10px}
+.empty{color:var(--sub);font-size:14px;padding:14px;border:1px dashed var(--line);border-radius:10px;text-align:center}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:860px){.grid2{grid-template-columns:1fr}}
+
+input[type=text],input[type=url],input[type=date],textarea{width:100%;border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:#fff}
+input:focus,textarea:focus{outline:2px solid var(--pri-l);border-color:var(--pri)}
+textarea{resize:vertical;min-height:70px}
+label.f{display:block;font-size:12px;color:var(--sub);font-weight:600;margin-bottom:3px}
+.meta-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media (max-width:700px){.meta-grid{grid-template-columns:1fr 1fr}}
+.meta-grid .wide{grid-column:span 2}
+
+/* 수업 정보 (보기) */
+.hero{background:linear-gradient(135deg,var(--pri),#5b7ff0);color:#fff;border:0}
+.hero .chips{display:flex;gap:6px;flex-wrap:wrap}
+.hero .chip{background:rgba(255,255,255,.18);padding:2px 10px;border-radius:99px;font-size:13px}
+.hero h1{margin:10px 0 4px;font-size:28px;line-height:1.3}
+.hero .unit{opacity:.9}
+.hero .by{font-size:13px;opacity:.8;margin-top:8px}
+
+/* 학습목표 */
+.obj-list{margin:0;padding:0;list-style:none;counter-reset:o}
+.obj-list li{counter-increment:o;display:flex;gap:10px;padding:8px 0;border-bottom:1px dashed var(--line)}
+.obj-list li:last-child{border-bottom:0}
+.obj-list li::before{content:counter(o);flex:none;width:24px;height:24px;border-radius:50%;background:var(--pri-l);color:var(--pri);font-weight:700;font-size:13px;display:grid;place-items:center;margin-top:1px}
+.row{display:flex;gap:6px;align-items:center;margin-bottom:6px}
+.row .n{flex:none;width:24px;text-align:center;font-weight:700;color:var(--pri)}
+
+/* 수업 내용 */
+.content p{margin:0 0 8px}
+.content h4{margin:14px 0 6px;color:var(--pri);font-size:16px}
+.content ul{margin:0 0 8px;padding-left:22px}
+.content mark{background:#fff0e6;color:var(--kw);font-weight:700;padding:0 3px;border-radius:4px}
+
+/* 링크 */
+.links{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.link-card{display:flex;align-items:center;gap:10px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);background:#fff}
+.link-card:hover{border-color:var(--pri);background:var(--pri-l)}
+.link-card .ic{font-size:22px}
+.link-card .t{font-weight:600;line-height:1.3}
+.link-card .u{font-size:12px;color:var(--sub);word-break:break-all;line-height:1.3}
+
+/* 자료 사진 */
+.gallery{display:grid;grid-template-columns:1fr 240px;gap:14px}
+@media (max-width:760px){.gallery{grid-template-columns:1fr}}
+.viewer{background:#f7f8fb;border:1px solid var(--line);border-radius:12px;min-height:300px;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden}
+.viewer img{max-width:100%;max-height:440px;object-fit:contain;cursor:zoom-in;display:block}
+.viewer .cap{align-self:stretch;padding:8px 14px;border-top:1px solid var(--line);background:#fff;font-weight:600;font-size:14px;display:flex;justify-content:space-between;gap:8px}
+.viewer .cap span{color:var(--sub);font-weight:400;font-size:12px}
+.viewer .err{color:var(--sub);font-size:14px;padding:30px;text-align:center}
+.img-links{display:flex;flex-direction:column;gap:6px}
+.img-link{text-align:left;border:1px solid var(--line);background:#fff;border-radius:9px;padding:9px 12px;cursor:pointer;color:var(--pri);text-decoration:underline;text-underline-offset:3px;font-weight:600;display:flex;gap:8px;align-items:center}
+.img-link:hover{background:var(--pri-l)}
+.img-link.on{background:var(--pri);color:#fff;border-color:var(--pri);text-decoration:none}
+.img-edit{display:grid;grid-template-columns:24px 64px 1fr auto;gap:8px;align-items:center;padding:8px 0;border-bottom:1px dashed var(--line)}
+.img-edit .thumb{width:64px;height:44px;border-radius:6px;border:1px solid var(--line);object-fit:cover;background:#f2f3f7}
+.img-edit .fields{display:grid;grid-template-columns:1fr 1.6fr;gap:6px}
+@media (max-width:700px){.img-edit .fields{grid-template-columns:1fr}}
+
+/* OX 퀴즈 */
+.qi{display:grid;grid-template-columns:34px 1fr auto;gap:12px;align-items:center;padding:10px 12px;border:1px solid var(--line);border-radius:10px;margin-bottom:8px;background:#fff}
+.qi .qn{width:30px;height:30px;border-radius:8px;background:var(--pri-l);color:var(--pri);font-weight:800;display:grid;place-items:center}
+.qi.right{border-color:var(--o);background:var(--o-l)}
+.qi.wrong{border-color:var(--x);background:var(--x-l)}
+.qi .exp{font-size:13px;color:var(--sub);margin-top:3px}
+.qi.right .exp b{color:var(--o)} .qi.wrong .exp b{color:var(--x)}
+.ox{display:flex;gap:6px}
+.ox button{width:46px;height:46px;border-radius:50%;border:2px solid var(--line);background:#fff;font-size:22px;font-weight:800;cursor:pointer}
+.ox .o{color:var(--o)} .ox .x{color:var(--x)}
+.ox .o.sel{background:var(--o);border-color:var(--o);color:#fff}
+.ox .x.sel{background:var(--x);border-color:var(--x);color:#fff}
+.ox button:disabled{cursor:default}
+.quiz-foot{display:flex;gap:8px;align-items:center;margin-top:12px;flex-wrap:wrap}
+.score{font-weight:800;font-size:18px;color:var(--pri);margin-left:auto}
+.qe{display:grid;grid-template-columns:30px 1fr auto;gap:10px;padding:10px;border:1px solid var(--line);border-radius:10px;margin-bottom:8px;background:#fff}
+.qe .qn{font-weight:800;color:var(--pri);padding-top:8px;text-align:center}
+.qe .flds{display:grid;gap:6px}
+.qe textarea{min-height:44px}
+.qe .side{display:flex;flex-direction:column;gap:6px;align-items:flex-end}
+.qe .ox button{width:38px;height:38px;font-size:18px}
+.qe .mv{display:flex;gap:4px}
+
+/* ---------- 학습지 ---------- */
+.ws-tools{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.ws-tools .opts{display:flex;gap:14px;flex-wrap:wrap;margin-right:auto}
+.ws-tools label{display:flex;gap:5px;align-items:center;cursor:pointer;font-size:14px}
+.ws-preview{display:flex;flex-direction:column;align-items:center;gap:20px;padding:10px 0 30px}
+.ws-page{width:210mm;min-height:297mm;background:#fff;padding:16mm 15mm;box-shadow:0 2px 14px rgba(0,0,0,.1);font-size:11pt;line-height:1.65;color:#111}
+@media (max-width:860px){.ws-preview{overflow-x:auto;align-items:flex-start}}
+.ws-top{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:3px solid #111;padding-bottom:6px;margin-bottom:10px}
+.ws-top .t{font-size:19pt;font-weight:800;line-height:1.25}
+.ws-top .m{font-size:9.5pt;color:#444;text-align:right}
+.ws-info{width:100%;border-collapse:collapse;margin-bottom:14px;font-size:10pt}
+.ws-info td{border:1px solid #333;padding:5px 8px}
+.ws-info td.h{background:#f0f0f0;font-weight:700;width:12%;text-align:center}
+.ws-sec{margin-bottom:14px;break-inside:avoid}
+.ws-sec h3{font-size:12pt;margin:0 0 6px;padding:3px 10px;background:#eef1f8;border-left:5px solid var(--pri)}
+.ws-sec ol,.ws-sec ul{margin:0;padding-left:22px}
+.ws-sec p{margin:0 0 5px}
+.ws-sec h4{margin:8px 0 3px;font-size:11pt}
+.blank{display:inline-block;min-width:26mm;border-bottom:1.3px solid #111;text-align:left;padding:0 3px;margin:0 2px}
+.blank b{font-size:9pt;color:#555}
+.ws-ox{width:100%;border-collapse:collapse;font-size:10.5pt}
+.ws-ox th,.ws-ox td{border:1px solid #555;padding:5px 8px}
+.ws-ox th{background:#f0f0f0}
+.ws-ox td.c{text-align:center;width:9%;white-space:nowrap}
+.ws-imgs{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ws-img{border:1px solid #aaa;border-radius:4px;padding:6px;break-inside:avoid}
+.ws-img img{width:100%;height:42mm;object-fit:contain;display:block;background:#fafafa}
+.ws-img .c{font-weight:700;font-size:10pt;margin:4px 0 2px}
+.lines div{border-bottom:1px solid #999;height:8.5mm}
+.ws-ans h3{border-left-color:var(--x)}
+.ws-ans .ans-blank{display:grid;grid-template-columns:repeat(3,1fr);gap:4px 14px}
+
+/* ---------- 슬라이드 ---------- */
+.slide-tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.slide-tools .info{margin-right:auto;color:var(--sub);font-size:14px}
+.slide-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+.slide-wrap{cursor:pointer}
+.slide-wrap .no{font-size:12px;color:var(--sub);margin-top:4px}
+.slide{position:relative;aspect-ratio:16/9;background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden;container-type:inline-size;color:#1d2433;line-height:1.45}
+.slide-wrap:hover .slide{border-color:var(--pri);box-shadow:0 0 0 3px var(--pri-l)}
+.slide .sh{position:absolute;left:0;top:0;right:0;height:13.3%;background:var(--pri);color:#fff;font-weight:700;font-size:2.9cqw;display:flex;align-items:center;padding:0 4.5cqw}
+.slide .sb{position:absolute;left:6cqw;right:6cqw;top:18.5%;bottom:10%;font-size:2.5cqw;overflow:hidden}
+.slide .sb ol,.slide .sb ul{margin:0;padding-left:1.2em}
+.slide .sb li{margin-bottom:.5em}
+.slide .sb p{margin:0 0 .4em}
+.slide .sb .hd{color:var(--pri);font-weight:700}
+.slide .sb b.k{color:var(--kw)}
+.slide .sf{position:absolute;left:4.5cqw;right:4.5cqw;bottom:2.2%;font-size:1.15cqw;color:#8a93a6;display:flex;justify-content:space-between}
+.slide.title{background:var(--pri);color:#fff}
+.slide.title .tb{position:absolute;left:6cqw;right:6cqw;top:21%}
+.slide.title .c1{font-size:1.9cqw;color:#dce5ff}
+.slide.title .c2{font-size:4.6cqw;font-weight:800;margin:1.5cqw 0;line-height:1.25}
+.slide.title .c3{font-size:2.3cqw}
+.slide.title .c4{position:absolute;left:6cqw;bottom:9%;font-size:1.5cqw;color:#dce5ff}
+.slide .simg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.slide .simg img{max-width:100%;max-height:100%;object-fit:contain}
+.slide .q{position:absolute;left:8cqw;right:8cqw;top:20%;height:34%;display:flex;align-items:center;justify-content:center;text-align:center;font-size:3.4cqw;font-weight:700}
+.slide .qb{position:absolute;left:0;right:0;top:60%;display:flex;justify-content:center;gap:12cqw}
+.slide .qb span{width:12cqw;height:12cqw;border-radius:50%;display:grid;place-items:center;font-size:7cqw;font-weight:800;color:#fff}
+.slide .qb .o{background:var(--o)} .slide .qb .x{background:var(--x)}
+.slide .qb span.dim{opacity:.18}
+.slide .ans{display:none;position:absolute;left:8cqw;right:8cqw;bottom:6%;text-align:center;font-size:1.9cqw;color:#444}
+.slide.reveal .ans{display:block}
+.slide.reveal .qb span:not(.is){opacity:.18}
+.slide table{width:100%;border-collapse:collapse;font-size:1.45cqw}
+.slide th,.slide td{border:1px solid #ccd3e0;padding:.35em .6em}
+.slide th{background:var(--pri-l)}
+.slide .lnk{color:var(--pri);text-decoration:underline}
+.slide .lnk small{color:#8a93a6;text-decoration:none;display:block;font-size:.6em}
+
+/* 발표 모드 */
+#present{position:fixed;inset:0;background:#0d1220;z-index:100;display:flex;align-items:center;justify-content:center}
+#present .stage{width:min(100vw,calc(100vh * 16 / 9));}
+#present .slide{border:0;border-radius:0}
+#present .pbar{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:8px;align-items:center;background:rgba(0,0,0,.55);padding:6px 10px;border-radius:99px;color:#fff;font-size:14px;opacity:.25;transition:opacity .2s}
+#present .pbar:hover{opacity:1}
+#present .pbar button{background:rgba(255,255,255,.15);border:0;color:#fff;border-radius:99px;padding:5px 12px;cursor:pointer}
+
+/* 라이트박스 */
+#lightbox{position:fixed;inset:0;background:rgba(10,14,25,.88);z-index:90;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px;cursor:zoom-out}
+#lightbox img{max-width:100%;max-height:85vh;object-fit:contain;background:#fff;border-radius:6px}
+#lightbox .c{color:#fff;margin-top:12px;font-weight:600}
+
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:#1d2433;color:#fff;padding:10px 18px;border-radius:10px;font-size:14px;opacity:0;pointer-events:none;transition:.25s;z-index:200}
+#toast.show{opacity:1;transform:translateX(-50%)}
+
+/* ---------- 인쇄 ---------- */
+#printRoot{display:none}
+@media print{
+  body{background:#fff}
+  .app,#toast,#lightbox,#present{display:none!important}
+  #printRoot{display:block}
+  .ws-page{width:auto;min-height:0;box-shadow:none;padding:0;margin:0}
+  .ws-page + .ws-page{break-before:page}
+  .print-slide{break-after:page;break-inside:avoid}
+  .print-slide:last-child{break-after:auto}
+  .print-slide .slide{border:1px solid #ccc;border-radius:0}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="topbar-in">
+      <div class="brand">📘 수업 자료 템플릿 <small id="saveState">자동 저장됨</small></div>
+      <nav class="tabs">
+        <button data-act="tab" data-v="lesson">수업 화면</button>
+        <button data-act="tab" data-v="ws">학습지</button>
+        <button data-act="tab" data-v="slides">PPT 슬라이드</button>
+      </nav>
+      <div class="tools">
+        <button class="btn warn" id="modeBtn" data-act="mode">✏️ 교사 모드</button>
+        <button class="btn" data-act="saveJson" title="수업 자료를 파일로 저장">💾 파일 저장</button>
+        <button class="btn" data-act="loadJson" title="저장한 수업 자료 불러오기">📂 불러오기</button>
+      </div>
+    </div>
+    <div class="teacher-band">교사 모드 · 모든 항목을 수정할 수 있습니다. 입력 내용은 이 브라우저에 자동 저장되며, 다른 컴퓨터에서 쓰려면 [💾 파일 저장]을 이용하세요.</div>
+  </header>
+  <main id="view"></main>
+  <input type="file" id="jsonFile" accept=".json,application/json" hidden>
+</div>
+<div id="printRoot"></div>
+<div id="lightbox" hidden></div>
+<div id="present" hidden></div>
+<div id="toast"></div>
+
+<script>
+/* =========================================================
+   데이터
+   ========================================================= */
+const STORE = 'lessonTemplate.v1';
+const CIRCLED = '①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱⑲⑳';
+
+function svgData(svg){ return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg); }
+const SAMPLE_IMG1 = svgData(`<svg xmlns="http://www.w3.org/2000/svg" width="960" height="600" viewBox="0 0 960 600" font-family="Malgun Gothic,sans-serif">
+<defs><marker id="a" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#2b5ce6"/></marker></defs>
+<rect width="960" height="600" fill="#eaf4ff"/><rect y="430" width="960" height="170" fill="#7cc3f5"/><path d="M560 430 L700 250 L840 430 z" fill="#8bb174"/><path d="M660 300 L700 250 L740 300 z" fill="#fff"/>
+<circle cx="110" cy="100" r="55" fill="#ffc83d"/><text x="110" y="185" text-anchor="middle" font-size="22" fill="#a86b00">태양 에너지</text>
+<g fill="#fff" stroke="#b9c7dd" stroke-width="2"><ellipse cx="480" cy="110" rx="110" ry="45"/><ellipse cx="420" cy="120" rx="70" ry="38"/><ellipse cx="545" cy="125" rx="70" ry="35"/></g>
+<text x="480" y="122" text-anchor="middle" font-size="24" fill="#333">구름 (응결)</text>
+<path d="M260 420 C 250 300, 330 170, 380 140" stroke="#2b5ce6" stroke-width="5" fill="none" marker-end="url(#a)"/><text x="215" y="320" font-size="24" fill="#1d43b0">증발</text>
+<g stroke="#2b5ce6" stroke-width="4"><line x1="640" y1="170" x2="660" y2="230"/><line x1="670" y1="170" x2="690" y2="230"/><line x1="700" y1="170" x2="720" y2="230"/></g><text x="735" y="215" font-size="24" fill="#1d43b0">강수</text>
+<path d="M600 455 C 500 480, 420 470, 340 460" stroke="#2b5ce6" stroke-width="5" fill="none" marker-end="url(#a)" stroke-dasharray="10 7"/><text x="430" y="515" font-size="22" fill="#103a6b">지하수 · 하천의 흐름</text>
+<text x="160" y="520" font-size="26" fill="#103a6b" font-weight="bold">바다</text>
+</svg>`);
+const SAMPLE_IMG2 = svgData(`<svg xmlns="http://www.w3.org/2000/svg" width="960" height="600" viewBox="0 0 960 600" font-family="Malgun Gothic,sans-serif">
+<rect width="960" height="600" fill="#fff"/><text x="480" y="70" text-anchor="middle" font-size="32" font-weight="bold" fill="#1d2433">지구에 있는 물의 분포</text>
+<rect x="120" y="120" width="720" height="70" fill="#7cc3f5"/><text x="135" y="165" font-size="24" fill="#103a6b">바닷물 약 97.5%</text>
+<rect x="120" y="230" width="380" height="70" fill="#d6ecff"/><text x="135" y="275" font-size="22" fill="#103a6b">빙하 · 만년설 약 1.8%(전체 기준)</text>
+<rect x="120" y="340" width="220" height="70" fill="#9fd8b6"/><text x="135" y="385" font-size="22" fill="#1f5135">지하수 약 0.7%</text>
+<rect x="120" y="450" width="60" height="70" fill="#ffd27a"/><text x="195" y="495" font-size="22" fill="#7a5b00">강 · 호수 · 대기 등 0.01% 내외</text>
+</svg>`);
+
+function sample(){
+  return {
+    meta:{subject:'과학', grade:'중학교 1학년', unit:'Ⅲ. 지구의 물 - 물의 순환', title:'물은 어떻게 순환할까?', date:new Date().toISOString().slice(0,10), teacher:'담당 교사'},
+    objectives:[
+      '물의 순환 과정을 증발, 응결, 강수와 관련지어 설명할 수 있다.',
+      '물의 순환을 일으키는 에너지원이 태양 에너지임을 말할 수 있다.',
+      '물의 순환이 지구 환경과 생명 활동에 주는 영향을 예를 들어 설명할 수 있다.'
+    ],
+    content:
+`# 물의 순환이란?
+지구의 물은 상태를 바꾸며 바다, 대기, 육지 사이를 끊임없이 이동하는데, 이를 [물의 순환]이라고 한다.
+물의 순환을 일으키는 주된 에너지원은 [태양 에너지]이다.
+# 물의 순환 과정
+- 바다나 호수의 물이 수증기가 되어 대기 중으로 올라가는 현상을 [증발]이라고 한다.
+- 대기 중의 수증기가 냉각되어 작은 물방울이 되는 현상을 [응결]이라고 하며, 이렇게 구름이 만들어진다.
+- 구름에서 비나 눈이 되어 지표로 떨어지는 현상을 [강수]라고 한다.
+- 땅속으로 스며든 물은 [지하수]가 되어 천천히 이동하다가 다시 바다로 흘러간다.
+# 정리
+물의 순환 과정에서 물의 상태와 위치는 바뀌지만, 지구 전체 물의 양은 [일정하게 유지]된다.`,
+    links:[
+      {title:'국립중앙과학관', url:'https://www.science.go.kr'},
+      {title:'EBS 클립뱅크', url:'https://clipbank.ebs.co.kr'}
+    ],
+    images:[
+      {title:'물의 순환 모식도', url:SAMPLE_IMG1},
+      {title:'지구에 있는 물의 분포', url:SAMPLE_IMG2}
+    ],
+    quiz:[
+      {q:'물의 순환을 일으키는 주된 에너지원은 태양 에너지이다.', a:'O', exp:'태양 에너지가 물을 증발시켜 순환이 시작된다.'},
+      {q:'증발은 수증기가 물방울로 변하는 현상이다.', a:'X', exp:'증발은 액체인 물이 기체인 수증기로 변하는 현상이다.'},
+      {q:'구름은 수증기가 응결하여 생긴 작은 물방울이나 얼음 알갱이로 이루어져 있다.', a:'O', exp:''},
+      {q:'비, 눈, 우박은 모두 강수에 해당한다.', a:'O', exp:''},
+      {q:'물의 순환 과정에서 지구 전체 물의 양은 계속 줄어든다.', a:'X', exp:'지구 전체 물의 양은 일정하게 유지된다.'},
+      {q:'식물의 잎에서 물이 수증기로 빠져나가는 현상을 증산 작용이라고 한다.', a:'O', exp:''},
+      {q:'지하수는 물의 순환에 참여하지 않는다.', a:'X', exp:'지하수도 천천히 이동하며 순환에 참여한다.'},
+      {q:'지구에 있는 물의 대부분은 바닷물이다.', a:'O', exp:'바닷물이 약 97% 이상을 차지한다.'},
+      {q:'응결은 기체가 액체로 변하는 현상이다.', a:'O', exp:''},
+      {q:'물의 순환은 대기 중에서만 일어난다.', a:'X', exp:'대기, 바다, 육지, 생물을 모두 거쳐 일어난다.'}
+    ],
+    ws:{obj:true, blank:true, ox:true, img:true, reflect:true, answer:true}
+  };
+}
+function blankLesson(){
+  return {
+    meta:{subject:'', grade:'', unit:'', title:'새 수업', date:new Date().toISOString().slice(0,10), teacher:''},
+    objectives:[''], content:'', links:[], images:[],
+    quiz:Array.from({length:10},()=>({q:'',a:'O',exp:''})),
+    ws:{obj:true, blank:true, ox:true, img:true, reflect:true, answer:true}
+  };
+}
+function normalize(d){
+  const b = blankLesson();
+  d = d && typeof d==='object' ? d : {};
+  return {
+    meta:{...b.meta, ...(d.meta||{})},
+    objectives:Array.isArray(d.objectives)?d.objectives.map(String):b.objectives,
+    content:typeof d.content==='string'?d.content:'',
+    links:Array.isArray(d.links)?d.links.map(l=>({title:String(l.title||''),url:String(l.url||'')})):[],
+    images:Array.isArray(d.images)?d.images.map(l=>({title:String(l.title||''),url:String(l.url||'')})):[],
+    quiz:Array.isArray(d.quiz)?d.quiz.map(q=>({q:String(q.q||''),a:q.a==='X'?'X':'O',exp:String(q.exp||'')})):b.quiz,
+    ws:{...b.ws, ...(d.ws||{})}
+  };
+}
+function load(){ try{ const s=localStorage.getItem(STORE); return s?normalize(JSON.parse(s)):null; }catch(e){ return null; } }
+
+let state = load() || sample();
+let teacher = false;
+let tab = 'lesson';
+let curImg = 0;
+let quizAns = {};
+let quizChecked = false;
+let presentIdx = 0, presentSlides = [];
+
+let saveTimer;
+function save(){
+  clearTimeout(saveTimer);
+  $('#saveState').textContent = '저장 중…';
+  saveTimer = setTimeout(()=>{
+    try{ localStorage.setItem(STORE, JSON.stringify(state)); $('#saveState').textContent='자동 저장됨'; }
+    catch(e){ $('#saveState').textContent='⚠ 자동 저장 실패'; toast('브라우저 저장 공간이 부족합니다. 큰 사진은 링크로 넣거나 [💾 파일 저장]을 이용하세요.'); }
+  }, 300);
+}
+
+/* =========================================================
+   유틸
+   ========================================================= */
+function $(s){ return document.querySelector(s); }
+function esc(s){ return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function setPath(p,v){ const ks=p.split('.'); let o=state; for(let i=0;i<ks.length-1;i++) o=o[ks[i]]; o[ks[ks.length-1]]=v; }
+function circ(n){ return n<=20 ? CIRCLED[n-1] : '('+n+')'; }
+function toast(msg){ const t=$('#toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('show'),2600); }
+function safeUrl(u){ u=String(u||'').trim(); if(!u) return ''; if(/^(https?:|data:image\/)/i.test(u)) return u; if(/^[\w.-]+\.[a-z]{2,}/i.test(u)) return 'https://'+u; return ''; }
+function fileName(){ return (state.meta.title||'수업자료').replace(/[\\/:*?"<>|]/g,'').trim() || '수업자료'; }
+function download(blob, name){ const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; document.body.appendChild(a); a.click(); setTimeout(()=>{URL.revokeObjectURL(a.href); a.remove();},500); }
+function metaLine(){ const m=state.meta; return [m.subject,m.grade].filter(Boolean).join(' · '); }
+
+/* 수업 내용 파싱: "# 소제목", "- 목록", [핵심어] */
+function parseContent(text){
+  return String(text||'').split('\n').map(r=>r.trim()).filter(Boolean).map(line=>{
+    if(/^#+\s*/.test(line)) return {kind:'h', text:line.replace(/^#+\s*/,'')};
+    if(/^[-•*]\s+/.test(line)) return {kind:'li', text:line.replace(/^[-•*]\s+/,'')};
+    return {kind:'p', text:line};
+  });
+}
+function segs(text){ // [{t, k:bool}]
+  const out=[]; let last=0; const re=/\[([^\]]+)\]/g; let m;
+  while((m=re.exec(text))){ if(m.index>last) out.push({t:text.slice(last,m.index),k:false}); out.push({t:m[1],k:true}); last=re.lastIndex; }
+  if(last<text.length) out.push({t:text.slice(last),k:false});
+  return out;
+}
+function contentHTML(text, mode){ // mode: view | blank | slide
+  const lines = Array.isArray(text) ? text : parseContent(text);
+  let html='', inList=false, n=0; const answers=[];
+  const fmt = s => segs(s).map(g=>{
+    if(!g.k) return esc(g.t);
+    if(mode==='view') return `<mark>${esc(g.t)}</mark>`;
+    if(mode==='slide') return `<b class="k">${esc(g.t)}</b>`;
+    n++; answers.push(g.t); return `<span class="blank"><b>${circ(n)}</b></span>`;
+  }).join('');
+  for(const l of lines){
+    if(l.kind==='li'){ if(!inList){html+='<ul>';inList=true;} html+=`<li>${fmt(l.text)}</li>`; continue; }
+    if(inList){html+='</ul>';inList=false;}
+    html += l.kind==='h' ? (mode==='slide'?`<p class="hd">${fmt(l.text)}</p>`:`<h4>${fmt(l.text)}</h4>`) : `<p>${fmt(l.text)}</p>`;
+  }
+  if(inList) html+='</ul>';
+  return {html, answers};
+}
+
+/* =========================================================
+   수업 화면
+   ========================================================= */
+function inp(path, val, ph, type='text'){ return `<input type="${type}" data-path="${path}" value="${esc(val)}" placeholder="${esc(ph||'')}">`; }
+
+function renderLesson(){
+  const m=state.meta, T=teacher;
+  let h='';
+
+  // 1. 수업 정보
+  if(T){
+    h+=`<section class="card"><h2>📋 수업 정보</h2><div class="meta-grid">
+      <div><label class="f">과목</label>${inp('meta.subject',m.subject,'예: 과학')}</div>
+      <div><label class="f">학년 / 대상</label>${inp('meta.grade',m.grade,'예: 중학교 1학년')}</div>
+      <div><label class="f">수업 일자</label>${inp('meta.date',m.date,'','date')}</div>
+      <div class="wide"><label class="f">단원명</label>${inp('meta.unit',m.unit,'예: Ⅲ. 지구의 물')}</div>
+      <div><label class="f">교사명</label>${inp('meta.teacher',m.teacher,'예: 홍길동')}</div>
+      <div class="wide" style="grid-column:1/-1"><label class="f">차시 제목 (학습 주제)</label>${inp('meta.title',m.title,'예: 물은 어떻게 순환할까?')}</div>
+    </div></section>`;
+  }else{
+    h+=`<section class="card hero"><div class="chips">${[m.subject,m.grade,m.date].filter(Boolean).map(c=>`<span class="chip">${esc(c)}</span>`).join('')}</div>
+      <h1>${esc(m.title||'제목 없는 수업')}</h1><div class="unit">${esc(m.unit)}</div>${m.teacher?`<div class="by">${esc(m.teacher)}</div>`:''}</section>`;
+  }
+
+  // 2. 학습목표 + 3. 수업 링크
+  h+=`<div class="grid2"><section class="card"><h2>🎯 학습 목표 ${T?`<span class="right"><button class="btn sm" data-act="addObj">+ 목표 추가</button></span>`:''}</h2>`;
+  if(T){
+    h+= state.objectives.map((o,i)=>`<div class="row"><span class="n">${i+1}</span>${inp('objectives.'+i,o,'학습 목표를 입력하세요')}<button class="btn sm del" data-act="delObj" data-i="${i}" title="삭제">✕</button></div>`).join('') || '<div class="empty">학습 목표를 추가하세요.</div>';
+  }else{
+    const objs=state.objectives.filter(o=>o.trim());
+    h+= objs.length ? `<ol class="obj-list">${objs.map(o=>`<li>${esc(o)}</li>`).join('')}</ol>` : '<div class="empty">등록된 학습 목표가 없습니다.</div>';
+  }
+  h+=`</section><section class="card"><h2>🔗 수업 링크 ${T?`<span class="right"><button class="btn sm" data-act="addLink">+ 링크 추가</button></span>`:''}</h2>`;
+  if(T){
+    h+= state.links.map((l,i)=>`<div class="row"><span class="n">${i+1}</span><input type="text" style="flex:1" data-path="links.${i}.title" value="${esc(l.title)}" placeholder="링크 이름"><input type="url" style="flex:1.6" data-path="links.${i}.url" value="${esc(l.url)}" placeholder="https://"><button class="btn sm del" data-act="delLink" data-i="${i}">✕</button></div>`).join('') || '<div class="empty">동영상, 활동 사이트, 설문 등 수업 링크를 추가하세요.</div>';
+  }else{
+    const ls=state.links.filter(l=>safeUrl(l.url));
+    h+= ls.length ? `<div class="links">${ls.map(l=>`<a class="link-card" href="${esc(safeUrl(l.url))}" target="_blank" rel="noopener"><span class="ic">${/youtu/.test(l.url)?'▶️':'🌐'}</span><span><div class="t">${esc(l.title||l.url)}</div><div class="u">${esc(l.url.replace(/^https?:\/\//,''))}</div></span></a>`).join('')}</div>` : '<div class="empty">등록된 링크가 없습니다.</div>';
+  }
+  h+=`</section></div>`;
+
+  // 4. 수업 내용
+  h+=`<section class="card"><h2>📖 수업 내용</h2>`;
+  if(T){
+    h+=`<p class="hint">핵심어를 <b>[대괄호]</b>로 감싸면 수업 화면에서 강조되고, 학습지에서는 자동으로 <b>빈칸 문제</b>가 됩니다. 줄 앞에 <b>#</b>을 쓰면 소제목, <b>-</b>를 쓰면 목록이 됩니다.</p>
+      <textarea data-path="content" rows="12" placeholder="# 소제목&#10;수업 내용을 입력하세요. 예: 물이 수증기로 변하는 현상을 [증발]이라고 한다.">${esc(state.content)}</textarea>`;
+  }else{
+    h+= state.content.trim() ? `<div class="content">${contentHTML(state.content,'view').html}</div>` : '<div class="empty">수업 내용이 없습니다.</div>';
+  }
+  h+=`</section>`;
+
+  // 5. 자료 사진
+  const imgs=state.images;
+  if(curImg>=imgs.length) curImg=Math.max(0,imgs.length-1);
+  const cur=imgs[curImg];
+  h+=`<section class="card"><h2>🖼️ 자료 사진 <span class="count">링크를 클릭하면 사진이 화면에 표시됩니다</span>${T?`<span class="right"><button class="btn sm" data-act="addImg">+ 사진 추가</button></span>`:''}</h2>`;
+  if(imgs.length){
+    h+=`<div class="gallery"><div class="viewer" id="viewer">${viewerHTML(cur)}</div>
+      <div class="img-links">${imgs.map((im,i)=>`<button class="img-link ${i===curImg?'on':''}" data-act="showImg" data-i="${i}">🖼 ${esc(im.title||'사진 '+(i+1))}</button>`).join('')}</div></div>`;
+  }else if(!T){ h+='<div class="empty">등록된 사진 자료가 없습니다.</div>'; }
+  if(T){
+    h+=`<p class="hint" style="margin-top:14px">사진 주소(URL)를 붙여 넣거나 [📁 파일]로 내 컴퓨터의 사진을 올리세요. 올린 사진은 PPT·학습지에 그대로 들어갑니다. (인터넷 사진은 사이트 설정에 따라 PPT에는 링크로 대체될 수 있습니다.)</p>`;
+    h+= imgs.map((im,i)=>{
+      const isData=/^data:/.test(im.url);
+      return `<div class="img-edit"><span class="n" style="font-weight:700;color:var(--pri);text-align:center">${i+1}</span>
+        ${im.url?`<img class="thumb" src="${esc(safeUrl(im.url))}" alt="" onerror="this.style.visibility='hidden'">`:'<span class="thumb"></span>'}
+        <div class="fields"><input type="text" data-path="images.${i}.title" value="${esc(im.title)}" placeholder="사진 제목 (링크 이름)">
+        <input type="url" data-path="images.${i}.url" data-img="${i}" value="${isData?'':esc(im.url)}" placeholder="${isData?'✔ 업로드한 사진 사용 중 (주소를 입력하면 교체)':'https:// 사진 주소'}"></div>
+        <div class="mv"><label class="btn sm">📁 파일<input type="file" accept="image/*" data-file="${i}" hidden></label>
+        <button class="btn sm" data-act="mvImg" data-i="${i}" data-d="-1" ${i===0?'disabled':''}>▲</button>
+        <button class="btn sm" data-act="mvImg" data-i="${i}" data-d="1" ${i===imgs.length-1?'disabled':''}>▼</button>
+        <button class="btn sm del" data-act="delImg" data-i="${i}">✕</button></div></div>`;
+    }).join('') || '<div class="empty">[+ 사진 추가]를 눌러 자료 사진을 등록하세요.</div>';
+  }
+  h+=`</section>`;
+
+  // 6. OX 퀴즈
+  h+=`<section class="card"><h2>⭕❌ OX 퀴즈 <span class="count">${state.quiz.length}문항</span>${T?`<span class="right"><button class="btn sm" data-act="addQuiz">+ 문항 추가</button></span>`:''}</h2>`;
+  if(T){
+    h+= state.quiz.map((q,i)=>`<div class="qe"><div class="qn">${i+1}</div>
+      <div class="flds"><textarea data-path="quiz.${i}.q" placeholder="문제를 입력하세요">${esc(q.q)}</textarea>
+      <input type="text" data-path="quiz.${i}.exp" value="${esc(q.exp)}" placeholder="해설 (선택)"></div>
+      <div class="side"><div class="ox"><button class="o ${q.a==='O'?'sel':''}" data-act="setAns" data-i="${i}" data-v="O" title="정답 O">O</button><button class="x ${q.a==='X'?'sel':''}" data-act="setAns" data-i="${i}" data-v="X" title="정답 X">X</button></div>
+      <div class="mv"><button class="btn sm" data-act="mvQuiz" data-i="${i}" data-d="-1" ${i===0?'disabled':''}>▲</button><button class="btn sm" data-act="mvQuiz" data-i="${i}" data-d="1" ${i===state.quiz.length-1?'disabled':''}>▼</button><button class="btn sm del" data-act="delQuiz" data-i="${i}">삭제</button></div></div></div>`).join('') || '<div class="empty">문항이 없습니다.</div>';
+    h+=`<div class="quiz-foot"><button class="btn" data-act="addQuiz">+ 문항 추가</button><span class="hint" style="margin:0">오른쪽 O / X 버튼으로 정답을 지정하세요.</span></div>`;
+  }else{
+    const qs=state.quiz.map((q,i)=>({...q,i})).filter(q=>q.q.trim());
+    if(!qs.length) h+='<div class="empty">등록된 퀴즈가 없습니다.</div>';
+    else{
+      h+= qs.map((q,k)=>{
+        const a=quizAns[q.i], cls=quizChecked?(a===q.a?'right':'wrong'):'';
+        return `<div class="qi ${cls}"><div class="qn">${k+1}</div><div><div>${esc(q.q)}</div>${quizChecked?`<div class="exp"><b>${a===q.a?'정답!':'오답'}</b> · 정답 ${q.a}${q.exp?' — '+esc(q.exp):''}</div>`:''}</div>
+          <div class="ox"><button class="o ${a==='O'?'sel':''}" data-act="ans" data-i="${q.i}" data-v="O" ${quizChecked?'disabled':''}>O</button><button class="x ${a==='X'?'sel':''}" data-act="ans" data-i="${q.i}" data-v="X" ${quizChecked?'disabled':''}>X</button></div></div>`;
+      }).join('');
+      const done=qs.filter(q=>quizAns[q.i]).length, right=qs.filter(q=>quizAns[q.i]===q.a).length;
+      h+=`<div class="quiz-foot">${quizChecked?'':`<button class="btn pri" data-act="checkQuiz">채점하기</button>`}<button class="btn" data-act="resetQuiz">다시 풀기</button>
+        <span class="score">${quizChecked?`${qs.length}문항 중 ${right}개 정답 (${Math.round(right/qs.length*100)}점)`:`${done} / ${qs.length} 응답`}</span></div>`;
+    }
+  }
+  h+=`</section>`;
+  return h;
+}
+function viewerHTML(im){
+  if(!im) return '';
+  const u=safeUrl(im.url);
+  if(!u) return `<div class="err">사진 주소가 없습니다.${teacher?'<br>아래에서 주소를 입력하거나 파일을 올려 주세요.':''}</div>`;
+  return `<img src="${esc(u)}" alt="${esc(im.title)}" data-act="zoom" onerror="this.outerHTML='<div class=&quot;err&quot;>사진을 불러올 수 없습니다.<br>주소를 확인해 주세요.</div>'">
+    <div class="cap">${esc(im.title||'')}<span>클릭하면 크게 보기</span></div>`;
+}
+
+/* =========================================================
+   학습지
+   ========================================================= */
+function renderWs(){
+  const w=state.ws;
+  const opt=(k,l)=>`<label><input type="checkbox" data-ws="${k}" ${w[k]?'checked':''}> ${l}</label>`;
+  return `<section class="card ws-tools"><div class="opts">${opt('obj','학습 목표')}${opt('blank','핵심 내용 빈칸')}${opt('ox','OX 퀴즈')}${opt('img','자료 관찰')}${opt('reflect','배움 정리')}${opt('answer','정답지 포함')}</div>
+    <button class="btn pri" data-act="printWs">🖨 학습지 출력</button></section>
+    <p class="hint">수업 화면에 입력한 학습 목표 · 수업 내용([핵심어]) · OX 퀴즈 · 자료 사진으로 학습지가 자동 구성됩니다. 내용을 바꾸면 학습지도 바로 바뀝니다.</p>
+    <div class="ws-preview">${worksheetHTML()}</div>`;
+}
+function worksheetHTML(){
+  const m=state.meta, w=state.ws;
+  const roman=['Ⅰ','Ⅱ','Ⅲ','Ⅳ','Ⅴ','Ⅵ']; let r=0;
+  const sec=(t,body)=>`<div class="ws-sec"><h3>${roman[r++]}. ${t}</h3>${body}</div>`;
+  const objs=state.objectives.filter(o=>o.trim());
+  const qs=state.quiz.filter(q=>q.q.trim());
+  const imgs=state.images.filter(i=>safeUrl(i.url));
+  const ct=contentHTML(state.content,'blank');
+
+  let p=`<div class="ws-page"><div class="ws-top"><div class="t">${esc(m.title||'학습지')}</div><div class="m">${esc(metaLine())}<br>${esc(m.unit)}</div></div>
+    <table class="ws-info"><tr><td class="h">날짜</td><td>${esc(m.date)}</td><td class="h">학번</td><td></td><td class="h">이름</td><td style="width:22%"></td></tr></table>`;
+  if(w.obj && objs.length) p+=sec('학습 목표', `<ol>${objs.map(o=>`<li>${esc(o)}</li>`).join('')}</ol>`);
+  if(w.blank && state.content.trim()) p+=sec('핵심 내용 정리'+(ct.answers.length?' <span style="font-weight:400;font-size:9.5pt">— 빈칸에 알맞은 말을 쓰세요.</span>':''), ct.html);
+  if(w.ox && qs.length) p+=sec('OX 퀴즈 <span style="font-weight:400;font-size:9.5pt">— 맞으면 O, 틀리면 X에 ○표 하세요.</span>',
+    `<table class="ws-ox"><tr><th style="width:7%">번호</th><th>문제</th><th>O / X</th></tr>${qs.map((q,i)=>`<tr><td class="c">${i+1}</td><td>${esc(q.q)}</td><td class="c">O &nbsp;/&nbsp; X</td></tr>`).join('')}</table>`);
+  if(w.img && imgs.length) p+=sec('자료 관찰 <span style="font-weight:400;font-size:9.5pt">— 자료를 보고 알게 된 점을 쓰세요.</span>',
+    `<div class="ws-imgs">${imgs.map((im,i)=>`<div class="ws-img"><img src="${esc(safeUrl(im.url))}" alt=""><div class="c">자료 ${i+1}. ${esc(im.title)}</div><div class="lines"><div></div><div></div></div></div>`).join('')}</div>`);
+  if(w.reflect) p+=sec('배움 정리', `<h4>· 오늘 배운 내용을 한 문장으로 정리해 봅시다.</h4><div class="lines"><div></div><div></div></div>
+    <h4>· 더 알고 싶은 점이나 궁금한 점을 써 봅시다.</h4><div class="lines"><div></div><div></div></div>
+    <h4>· 자기 평가: 학습 목표를 달성했나요?</h4><p>☐ 매우 잘함 &nbsp;&nbsp; ☐ 잘함 &nbsp;&nbsp; ☐ 보통 &nbsp;&nbsp; ☐ 노력 필요</p>`);
+  p+=`</div>`;
+
+  if(w.answer && ((w.blank && ct.answers.length) || (w.ox && qs.length))){
+    r=0;
+    p+=`<div class="ws-page ws-ans"><div class="ws-top"><div class="t">정답 및 해설</div><div class="m">${esc(m.title)}</div></div>`;
+    if(w.blank && ct.answers.length) p+=sec('핵심 내용 빈칸', `<div class="ans-blank">${ct.answers.map((a,i)=>`<div>${circ(i+1)} ${esc(a)}</div>`).join('')}</div>`);
+    if(w.ox && qs.length) p+=sec('OX 퀴즈', `<table class="ws-ox"><tr><th style="width:7%">번호</th><th style="width:9%">정답</th><th>해설</th></tr>${qs.map((q,i)=>`<tr><td class="c">${i+1}</td><td class="c"><b style="color:${q.a==='O'?'var(--o)':'var(--x)'}">${q.a}</b></td><td>${esc(q.exp||'')}</td></tr>`).join('')}</table>`);
+    p+=`</div>`;
+  }
+  return p;
+}
+
+/* =========================================================
+   슬라이드 (미리보기 · 발표 · 인쇄 · PPT 공통 모델)
+   ========================================================= */
+function buildSlides(){
+  const S=[], qs=state.quiz.filter(q=>q.q.trim());
+  S.push({type:'title'});
+  const objs=state.objectives.filter(o=>o.trim());
+  if(objs.length) S.push({type:'list', title:'학습 목표', items:objs});
+  const lines=parseContent(state.content), per=7, pages=Math.ceil(lines.length/per);
+  for(let i=0;i<pages;i++) S.push({type:'content', title:'수업 내용'+(pages>1?` (${i+1}/${pages})`:''), lines:lines.slice(i*per,(i+1)*per)});
+  state.images.filter(im=>safeUrl(im.url)).forEach(im=>S.push({type:'image', title:im.title||'자료 사진', url:safeUrl(im.url)}));
+  const ls=state.links.filter(l=>safeUrl(l.url));
+  if(ls.length) S.push({type:'links', title:'수업 링크', items:ls});
+  qs.forEach((q,i)=>S.push({type:'quiz', title:`OX 퀴즈 ${i+1} / ${qs.length}`, q}));
+  if(qs.length) S.push({type:'answers', title:'OX 퀴즈 정답', items:qs});
+  return S;
+}
+function slideHTML(s, i, n, reveal){
+  const m=state.meta;
+  if(s.type==='title') return `<div class="slide title"><div class="tb"><div class="c1">${esc(metaLine())}</div><div class="c2">${esc(m.title||'수업 제목')}</div><div class="c3">${esc(m.unit)}</div></div><div class="c4">${esc([m.date,m.teacher].filter(Boolean).join('   '))}</div></div>`;
+  let body='';
+  if(s.type==='list') body=`<div class="sb"><ol>${s.items.map(t=>`<li>${esc(t)}</li>`).join('')}</ol></div>`;
+  if(s.type==='content') body=`<div class="sb">${contentHTML(s.lines,'slide').html}</div>`;
+  if(s.type==='image') body=`<div class="sb" style="top:16%;bottom:8%"><div class="simg"><img src="${esc(s.url)}" alt=""></div></div>`;
+  if(s.type==='links') body=`<div class="sb"><ul>${s.items.map(l=>`<li><span class="lnk">${esc(l.title||l.url)}<small>${esc(l.url)}</small></span></li>`).join('')}</ul></div>`;
+  if(s.type==='quiz') body=`<div class="q">${esc(s.q.q)}</div><div class="qb"><span class="o ${s.q.a==='O'?'is':''}">O</span><span class="x ${s.q.a==='X'?'is':''}">X</span></div><div class="ans">정답: <b>${s.q.a}</b>${s.q.exp?' — '+esc(s.q.exp):''}</div>`;
+  if(s.type==='answers') body=`<div class="sb" style="top:17%;bottom:8%"><table><tr><th style="width:7%">번호</th><th>문제</th><th style="width:8%">정답</th></tr>${s.items.map((q,k)=>`<tr><td style="text-align:center">${k+1}</td><td>${esc(q.q)}</td><td style="text-align:center;font-weight:800;color:${q.a==='O'?'var(--o)':'var(--x)'}">${q.a}</td></tr>`).join('')}</table></div>`;
+  return `<div class="slide ${reveal?'reveal':''}"><div class="sh">${esc(s.title)}</div>${body}<div class="sf"><span>${esc([m.subject,m.title].filter(Boolean).join(' | '))}</span><span>${i+1} / ${n}</span></div></div>`;
+}
+function renderSlides(){
+  const S=buildSlides();
+  return `<section class="card slide-tools"><span class="info">수업 화면의 내용으로 슬라이드 ${S.length}장이 자동 구성됩니다. 슬라이드를 클릭하면 그 장부터 발표합니다.</span>
+    <button class="btn" data-act="present" data-i="0">▶ 발표 모드</button>
+    <button class="btn" data-act="printSlides">🖨 슬라이드 출력</button>
+    <button class="btn pri" data-act="exportPpt">📥 파워포인트(.pptx) 저장</button></section>
+    <div class="slide-grid">${S.map((s,i)=>`<div class="slide-wrap" data-act="present" data-i="${i}">${slideHTML(s,i,S.length,teacher)}<div class="no">${i+1}. ${esc(s.type==='title'?'표지':s.title)}${s.type==='quiz'?' · 정답은 슬라이드 노트에 저장':''}</div></div>`).join('')}</div>`;
+}
+
+/* 발표 모드 */
+function openPresent(i){
+  presentSlides=buildSlides(); presentIdx=Math.max(0,Math.min(i,presentSlides.length-1));
+  const p=$('#present'); p.hidden=false; drawPresent();
+  if(p.requestFullscreen) p.requestFullscreen().catch(()=>{});
+}
+function drawPresent(reveal=false){
+  const s=presentSlides[presentIdx];
+  $('#present').innerHTML=`<div class="stage" data-act="pnext">${slideHTML(s,presentIdx,presentSlides.length,reveal)}</div>
+    <div class="pbar"><button data-act="pprev">◀</button><span>${presentIdx+1} / ${presentSlides.length}</span><button data-act="pnext">▶</button>${s.type==='quiz'?'<button data-act="preveal">정답 보기 (A)</button>':''}<button data-act="pclose">닫기 (Esc)</button></div>`;
+}
+function closePresent(){ $('#present').hidden=true; $('#present').innerHTML=''; if(document.fullscreenElement) document.exitFullscreen().catch(()=>{}); }
+
+/* =========================================================
+   인쇄
+   ========================================================= */
+function printHTML(html, orient){
+  $('#pageStyle').textContent=`@page{size:A4 ${orient};margin:${orient==='landscape'?'10mm':'12mm'}}`;
+  $('#printRoot').innerHTML=html;
+  const imgs=[...$('#printRoot').querySelectorAll('img')];
+  Promise.all(imgs.map(im=>im.complete?0:new Promise(r=>{im.onload=im.onerror=r;}))).then(()=>setTimeout(()=>window.print(),80));
+}
+window.addEventListener('afterprint',()=>{ $('#printRoot').innerHTML=''; });
+
+/* =========================================================
+   파워포인트 저장 (PptxGenJS)
+   ========================================================= */
+function toPng(url){
+  return new Promise(res=>{
+    const img=new Image(); let done=false;
+    const fin=v=>{ if(!done){done=true;res(v);} };
+    if(!/^data:/.test(url)) img.crossOrigin='anonymous';
+    img.onload=()=>{
+      try{
+        let w=img.naturalWidth||960, h=img.naturalHeight||600; const sc=Math.min(1,2000/Math.max(w,h));
+        const c=document.createElement('canvas'); c.width=Math.round(w*sc); c.height=Math.round(h*sc);
+        const g=c.getContext('2d'); g.fillStyle='#fff'; g.fillRect(0,0,c.width,c.height); g.drawImage(img,0,0,c.width,c.height);
+        fin({data:c.toDataURL('image/png'), w:c.width, h:c.height});
+      }catch(e){ fin(null); }
+    };
+    img.onerror=()=>fin(null);
+    setTimeout(()=>fin(null),10000);
+    img.src=url;
+  });
+}
+async function exportPpt(){
+  if(!window.PptxGenJS){ toast('PPT 기능을 불러오지 못했습니다. 인터넷 연결을 확인한 뒤 새로고침 하세요.'); return; }
+  toast('파워포인트 파일을 만드는 중입니다…');
+  const m=state.meta, S=buildSlides(), F='맑은 고딕', W=13.333;
+  const P=new PptxGenJS(); P.layout='LAYOUT_WIDE'; P.title=m.title||'수업 자료'; P.author=m.teacher||'';
+  const PRI='2B5CE6', INK='1D2433', KW='D9480F', GRAY='8A93A6';
+  let fails=0;
+  for(let i=0;i<S.length;i++){
+    const s=S[i], sl=P.addSlide();
+    if(s.type==='title'){
+      sl.background={color:PRI};
+      sl.addText(metaLine(),{x:.8,y:1.5,w:11.7,h:.5,fontSize:18,color:'DCE5FF',fontFace:F});
+      sl.addText(m.title||'수업 제목',{x:.8,y:2.05,w:11.7,h:1.7,fontSize:44,bold:true,color:'FFFFFF',fontFace:F,valign:'middle'});
+      sl.addText(m.unit||'',{x:.8,y:3.8,w:11.7,h:.6,fontSize:22,color:'FFFFFF',fontFace:F});
+      sl.addText([m.date,m.teacher].filter(Boolean).join('   '),{x:.8,y:6.4,w:11.7,h:.4,fontSize:14,color:'DCE5FF',fontFace:F});
+      continue;
+    }
+    sl.addShape('rect',{x:0,y:0,w:W,h:1.0,fill:{color:PRI},line:{color:PRI}});
+    sl.addText(s.title,{x:.6,y:0,w:W-1.2,h:1.0,fontSize:28,bold:true,color:'FFFFFF',fontFace:F,valign:'middle'});
+    sl.addText([m.subject,m.title].filter(Boolean).join(' | '),{x:.6,y:7.0,w:9,h:.35,fontSize:11,color:GRAY,fontFace:F});
+    sl.addText(`${i+1} / ${S.length}`,{x:W-2.6,y:7.0,w:2,h:.35,fontSize:11,color:GRAY,fontFace:F,align:'right'});
+    const box={x:.8,y:1.4,w:W-1.6,h:5.4};
+
+    if(s.type==='list'){
+      sl.addText(s.items.map(t=>({text:t,options:{bullet:{type:'number'},breakLine:true}})),{...box,fontSize:24,fontFace:F,color:INK,valign:'top',paraSpaceAfter:14});
+    }
+    if(s.type==='content'){
+      const runs=[];
+      s.lines.forEach(l=>{
+        const po = l.kind==='li' ? {bullet:true} : {bullet:false};
+        const g=segs(l.text);
+        g.forEach((x,k)=>runs.push({text:x.t,options:{...po,bold:l.kind==='h'||x.k,color:l.kind==='h'?PRI:(x.k?KW:INK),breakLine:k===g.length-1}}));
+      });
+      if(runs.length) sl.addText(runs,{...box,fontSize:22,fontFace:F,valign:'top',paraSpaceAfter:10});
+    }
+    if(s.type==='image'){
+      const d=await toPng(s.url);
+      if(d){
+        const bx={x:.8,y:1.25,w:W-1.6,h:5.6}, r=Math.min(bx.w/d.w,bx.h/d.h), w=d.w*r, h=d.h*r;
+        sl.addImage({data:d.data,x:bx.x+(bx.w-w)/2,y:bx.y+(bx.h-h)/2,w,h});
+      }else{
+        fails++;
+        sl.addText([{text:'이 사진은 사이트 보안 설정 때문에 파일에 넣지 못했습니다.\n',options:{color:GRAY,fontSize:18}},{text:'▶ 사진 열기: '+s.url,options:{hyperlink:{url:s.url},color:PRI,fontSize:16}}],{...box,fontFace:F,align:'center',valign:'middle'});
+      }
+    }
+    if(s.type==='links'){
+      const runs=[];
+      s.items.forEach(l=>{ runs.push({text:l.title||l.url,options:{bullet:true,hyperlink:{url:l.url},color:PRI,fontSize:24,breakLine:true}}); runs.push({text:l.url,options:{bullet:false,indentLevel:1,color:GRAY,fontSize:14,breakLine:true}}); });
+      sl.addText(runs,{...box,fontFace:F,valign:'top',paraSpaceAfter:6});
+    }
+    if(s.type==='quiz'){
+      sl.addText(s.q.q,{x:1,y:1.5,w:W-2,h:2.4,fontSize:32,bold:true,fontFace:F,color:INK,align:'center',valign:'middle'});
+      sl.addShape('ellipse',{x:3.6,y:4.3,w:1.9,h:1.9,fill:{color:'1F9D55'},line:{color:'1F9D55'}});
+      sl.addText('O',{x:3.6,y:4.3,w:1.9,h:1.9,fontSize:66,bold:true,color:'FFFFFF',align:'center',valign:'middle',fontFace:F});
+      sl.addShape('ellipse',{x:7.8,y:4.3,w:1.9,h:1.9,fill:{color:'E03E3E'},line:{color:'E03E3E'}});
+      sl.addText('X',{x:7.8,y:4.3,w:1.9,h:1.9,fontSize:66,bold:true,color:'FFFFFF',align:'center',valign:'middle',fontFace:F});
+      sl.addNotes(`정답: ${s.q.a}${s.q.exp?'\n해설: '+s.q.exp:''}`);
+    }
+    if(s.type==='answers'){
+      const hd=t=>({text:t,options:{bold:true,fill:{color:'EAF0FF'},align:'center'}});
+      const rows=[[hd('번호'),hd('문제'),hd('정답'),hd('해설')]].concat(s.items.map((q,k)=>[
+        {text:String(k+1),options:{align:'center'}},q.q,{text:q.a,options:{align:'center',bold:true,color:q.a==='O'?'1F9D55':'E03E3E'}},q.exp||'']));
+      sl.addTable(rows,{x:.6,y:1.25,w:W-1.2,colW:[.8,6.6,.9,3.833],fontSize:12,fontFace:F,color:INK,border:{type:'solid',pt:.75,color:'CCD3E0'},valign:'middle',autoPage:true,autoPageRepeatHeader:true,newSlideStartY:1.25});
+    }
+  }
+  try{
+    await P.writeFile({fileName:fileName()+'.pptx'});
+    toast(fails?`PPT 저장 완료 (사진 ${fails}장은 링크로 대체)`:'PPT 파일을 저장했습니다.');
+  }catch(e){ console.error(e); toast('PPT 저장 중 오류가 발생했습니다.'); }
+}
+
+/* =========================================================
+   이미지 업로드
+   ========================================================= */
+function fileToData(file){
+  return new Promise(res=>{
+    const fr=new FileReader();
+    fr.onload=()=>{
+      const img=new Image();
+      img.onload=()=>{
+        const max=1600, sc=Math.min(1,max/Math.max(img.width,img.height));
+        const c=document.createElement('canvas'); c.width=Math.round(img.width*sc); c.height=Math.round(img.height*sc);
+        const g=c.getContext('2d'); g.fillStyle='#fff'; g.fillRect(0,0,c.width,c.height); g.drawImage(img,0,0,c.width,c.height);
+        res(c.toDataURL('image/jpeg',.85));
+      };
+      img.onerror=()=>res(fr.result);
+      img.src=fr.result;
+    };
+    fr.readAsDataURL(file);
+  });
+}
+
+/* =========================================================
+   렌더 & 이벤트
+   ========================================================= */
+function render(){
+  document.body.classList.toggle('teacher',teacher);
+  $('#modeBtn').textContent = teacher ? '✔ 편집 완료' : '✏️ 교사 모드';
+  $('#modeBtn').className = 'btn ' + (teacher ? 'pri' : 'warn');
+  document.querySelectorAll('.tabs button').forEach(b=>b.classList.toggle('on',b.dataset.v===tab));
+  $('#view').innerHTML = tab==='lesson' ? renderLesson() : tab==='ws' ? renderWs() : renderSlides();
+}
+function move(arr,i,d){ const j=i+d; if(j<0||j>=arr.length) return; [arr[i],arr[j]]=[arr[j],arr[i]]; }
+
+document.addEventListener('click', e=>{
+  const el=e.target.closest('[data-act]'); if(!el) return;
+  const act=el.dataset.act, i=+el.dataset.i, v=el.dataset.v, d=+el.dataset.d;
+  const edit=fn=>{ fn(); save(); render(); };
+  switch(act){
+    case 'tab': tab=v; render(); window.scrollTo(0,0); break;
+    case 'mode': teacher=!teacher; render(); toast(teacher?'교사 모드: 내용을 수정할 수 있습니다.':'수정을 마쳤습니다. 학생 화면으로 전환합니다.'); break;
+    case 'addObj': edit(()=>state.objectives.push('')); break;
+    case 'delObj': edit(()=>state.objectives.splice(i,1)); break;
+    case 'addLink': edit(()=>state.links.push({title:'',url:''})); break;
+    case 'delLink': edit(()=>state.links.splice(i,1)); break;
+    case 'addImg': edit(()=>{ state.images.push({title:'',url:''}); curImg=state.images.length-1; }); break;
+    case 'delImg': edit(()=>state.images.splice(i,1)); break;
+    case 'mvImg': edit(()=>{ move(state.images,i,d); curImg=i+d; }); break;
+    case 'showImg': curImg=i; render(); break;
+    case 'zoom': {
+      const im=state.images[curImg]; if(!im) break;
+      const lb=$('#lightbox'); lb.innerHTML=`<img src="${esc(safeUrl(im.url))}" alt=""><div class="c">${esc(im.title)}</div>`; lb.hidden=false; break;
+    }
+    case 'addQuiz': edit(()=>state.quiz.push({q:'',a:'O',exp:''})); setTimeout(()=>{ const t=document.querySelectorAll('.qe textarea'); t[t.length-1]?.focus(); },0); break;
+    case 'delQuiz': if(state.quiz[i].q.trim() && !confirm(`${i+1}번 문항을 삭제할까요?`)) break; edit(()=>state.quiz.splice(i,1)); break;
+    case 'mvQuiz': edit(()=>move(state.quiz,i,d)); break;
+    case 'setAns': edit(()=>state.quiz[i].a=v); break;
+    case 'ans': quizAns[i]=v; render(); break;
+    case 'checkQuiz': {
+      const left=state.quiz.filter((q,k)=>q.q.trim()&&!quizAns[k]).length;
+      if(left && !confirm(`아직 풀지 않은 문항이 ${left}개 있습니다. 채점할까요?`)) break;
+      quizChecked=true; render(); break;
+    }
+    case 'resetQuiz': quizAns={}; quizChecked=false; render(); break;
+    case 'printWs': printHTML(worksheetHTML(),'portrait'); break;
+    case 'printSlides': { const S=buildSlides(); printHTML(S.map((s,k)=>`<div class="print-slide">${slideHTML(s,k,S.length,false)}</div>`).join(''),'landscape'); break; }
+    case 'exportPpt': exportPpt(); break;
+    case 'present': openPresent(i); break;
+    case 'pnext': e.stopPropagation(); if(presentIdx<presentSlides.length-1){presentIdx++; drawPresent();} break;
+    case 'pprev': e.stopPropagation(); if(presentIdx>0){presentIdx--; drawPresent();} break;
+    case 'preveal': e.stopPropagation(); drawPresent(true); break;
+    case 'pclose': e.stopPropagation(); closePresent(); break;
+    case 'saveJson': download(new Blob([JSON.stringify(state,null,2)],{type:'application/json'}), fileName()+'.json'); toast('수업 자료 파일(.json)을 저장했습니다.'); break;
+    case 'loadJson': $('#jsonFile').click(); break;
+  }
+});
+$('#lightbox').addEventListener('click',()=>{ $('#lightbox').hidden=true; });
+
+document.addEventListener('input', e=>{
+  const t=e.target;
+  if(t.dataset.path){
+    setPath(t.dataset.path, t.value); save();
+    if(t.dataset.img!==undefined){ // 사진 주소 입력 → 미리보기 즉시 반영
+      const i=+t.dataset.img; curImg=i;
+      const vw=$('#viewer'); if(vw) vw.innerHTML=viewerHTML(state.images[i]);
+      document.querySelectorAll('.img-link').forEach((b,k)=>b.classList.toggle('on',k===i));
+      const th=t.closest('.img-edit').querySelector('.thumb');
+      if(th && th.tagName==='IMG'){ th.style.visibility=''; th.src=safeUrl(t.value); }
+    }
+    if(/^images\.\d+\.title$/.test(t.dataset.path)){
+      const i=+t.dataset.path.split('.')[1], b=document.querySelectorAll('.img-link')[i];
+      if(b) b.textContent='🖼 '+(t.value||'사진 '+(i+1));
+    }
+  }
+});
+document.addEventListener('change', async e=>{
+  const t=e.target;
+  if(t.dataset.ws){ state.ws[t.dataset.ws]=t.checked; save(); $('.ws-preview').innerHTML=worksheetHTML(); }
+  if(t.dataset.file!==undefined && t.files[0]){
+    const i=+t.dataset.file, f=t.files[0];
+    const data=await fileToData(f);
+    state.images[i].url=data;
+    if(!state.images[i].title) state.images[i].title=f.name.replace(/\.[^.]+$/,'');
+    curImg=i; save(); render(); toast('사진을 올렸습니다.');
+  }
+  if(t.id==='jsonFile' && t.files[0]){
+    try{
+      const d=JSON.parse(await t.files[0].text());
+      state=normalize(d); quizAns={}; quizChecked=false; curImg=0; save(); render(); toast('수업 자료를 불러왔습니다.');
+    }catch(err){ toast('파일을 읽을 수 없습니다. 이 템플릿에서 저장한 .json 파일인지 확인하세요.'); }
+    t.value='';
+  }
+});
+document.addEventListener('keydown', e=>{
+  if(!$('#present').hidden){
+    if(['ArrowRight','PageDown',' ','Enter'].includes(e.key)){ e.preventDefault(); if(presentIdx<presentSlides.length-1){presentIdx++; drawPresent();} }
+    else if(['ArrowLeft','PageUp','Backspace'].includes(e.key)){ e.preventDefault(); if(presentIdx>0){presentIdx--; drawPresent();} }
+    else if(e.key==='Escape') closePresent();
+    else if(e.key.toLowerCase()==='a' && presentSlides[presentIdx].type==='quiz') drawPresent(true);
+    return;
+  }
+  if(e.key==='Escape') $('#lightbox').hidden=true;
+});
+document.addEventListener('fullscreenchange',()=>{ if(!document.fullscreenElement && !$('#present').hidden) closePresent(); });
+
+/* 교사 모드에서 '새 수업' / '예시 불러오기' */
+(function addExtraTools(){
+  const tools=document.querySelector('.tools');
+  tools.insertAdjacentHTML('beforeend',`<button class="btn" id="newBtn" title="빈 템플릿으로 새로 시작">🆕 새 수업</button>`);
+  $('#newBtn').addEventListener('click',()=>{
+    if(!confirm('현재 내용을 지우고 빈 템플릿(OX 10문항)으로 시작할까요?\n필요하면 먼저 [💾 파일 저장]을 해 두세요.')) return;
+    state=blankLesson(); quizAns={}; quizChecked=false; curImg=0; teacher=true; tab='lesson'; save(); render();
+  });
+})();
+
+render();
+</script>
+</body>
+</html>
