@@ -212,6 +212,18 @@ label.f{display:block;font-size:12px;color:var(--sub);font-weight:600;margin-bot
 #lightbox img{max-width:100%;max-height:85vh;object-fit:contain;background:#fff;border-radius:6px}
 #lightbox .c{color:#fff;margin-top:12px;font-weight:600}
 
+/* 비밀번호 창 */
+#pwModal{position:fixed;inset:0;background:rgba(10,14,25,.55);z-index:150;display:flex;align-items:center;justify-content:center;padding:20px}
+#pwModal .box{background:#fff;border-radius:14px;padding:22px 24px;width:min(360px,100%);box-shadow:0 10px 40px rgba(0,0,0,.25)}
+#pwModal h3{margin:0 0 4px;font-size:18px}
+#pwModal .hint{margin:0 0 14px}
+#pwModal input{margin-bottom:8px}
+#pwModal .msg{color:var(--x);font-size:13px;min-height:20px}
+#pwModal .act{display:flex;justify-content:flex-end;gap:8px;margin-top:6px}
+.t-only{display:none!important}
+body.teacher .t-only{display:inline-flex!important}
+.teacher-band .btn{margin-left:8px;vertical-align:middle}
+
 #toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:#1d2433;color:#fff;padding:10px 18px;border-radius:10px;font-size:14px;opacity:0;pointer-events:none;transition:.25s;z-index:200}
 #toast.show{opacity:1;transform:translateX(-50%)}
 
@@ -246,7 +258,7 @@ label.f{display:block;font-size:12px;color:var(--sub);font-weight:600;margin-bot
         <button class="btn" data-act="loadJson" title="저장한 수업 자료 불러오기">📂 불러오기</button>
       </div>
     </div>
-    <div class="teacher-band">교사 모드 · 모든 항목을 수정할 수 있습니다. 입력 내용은 이 브라우저에 자동 저장되며, 다른 컴퓨터에서 쓰려면 [💾 파일 저장]을 이용하세요.</div>
+    <div class="teacher-band">교사 모드 · 모든 항목을 수정할 수 있습니다. 입력 내용은 이 브라우저에 자동 저장되며, 다른 컴퓨터에서 쓰려면 [💾 파일 저장]을 이용하세요.<button class="btn sm" data-act="chpw">🔒 비밀번호 변경</button></div>
   </header>
   <main id="view"></main>
   <input type="file" id="jsonFile" accept=".json,application/json" hidden>
@@ -254,6 +266,7 @@ label.f{display:block;font-size:12px;color:var(--sub);font-weight:600;margin-bot
 <div id="printRoot"></div>
 <div id="lightbox" hidden></div>
 <div id="present" hidden></div>
+<div id="pwModal" hidden></div>
 <div id="toast"></div>
 
 <script>
@@ -262,6 +275,17 @@ label.f{display:block;font-size:12px;color:var(--sub);font-weight:600;margin-bot
    ========================================================= */
 const STORE = 'lessonTemplate.v1';
 const CIRCLED = '①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱⑲⑳';
+
+/* 교사 모드 비밀번호: 원문 대신 해시로 저장 (기본값 1234) */
+function pwHash(s){
+  s = 'lessonTemplate:' + s;
+  let h1=0xdeadbeef, h2=0x41c6ce57;
+  for(let i=0;i<s.length;i++){ const c=s.charCodeAt(i); h1=Math.imul(h1^c,2654435761); h2=Math.imul(h2^c,1597334677); }
+  h1=Math.imul(h1^(h1>>>16),2246822507)^Math.imul(h2^(h2>>>13),3266489909);
+  h2=Math.imul(h2^(h2>>>16),2246822507)^Math.imul(h1^(h1>>>13),3266489909);
+  return (h2>>>0).toString(16).padStart(8,'0') + (h1>>>0).toString(16).padStart(8,'0');
+}
+const DEFAULT_PW = pwHash('1234');
 
 function svgData(svg){ return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg); }
 const SAMPLE_IMG1 = svgData(`<svg xmlns="http://www.w3.org/2000/svg" width="960" height="600" viewBox="0 0 960 600" font-family="Malgun Gothic,sans-serif">
@@ -322,7 +346,8 @@ function sample(){
       {q:'응결은 기체가 액체로 변하는 현상이다.', a:'O', exp:''},
       {q:'물의 순환은 대기 중에서만 일어난다.', a:'X', exp:'대기, 바다, 육지, 생물을 모두 거쳐 일어난다.'}
     ],
-    ws:{obj:true, blank:true, ox:true, img:true, reflect:true, answer:true}
+    ws:{obj:true, blank:true, ox:true, img:true, reflect:true, answer:true},
+    pw:DEFAULT_PW
   };
 }
 function blankLesson(){
@@ -330,7 +355,8 @@ function blankLesson(){
     meta:{subject:'', grade:'', unit:'', title:'새 수업', date:new Date().toISOString().slice(0,10), teacher:''},
     objectives:[''], content:'', links:[], images:[],
     quiz:Array.from({length:10},()=>({q:'',a:'O',exp:''})),
-    ws:{obj:true, blank:true, ox:true, img:true, reflect:true, answer:true}
+    ws:{obj:true, blank:true, ox:true, img:true, reflect:true, answer:true},
+    pw:DEFAULT_PW
   };
 }
 function normalize(d){
@@ -343,7 +369,8 @@ function normalize(d){
     links:Array.isArray(d.links)?d.links.map(l=>({title:String(l.title||''),url:String(l.url||'')})):[],
     images:Array.isArray(d.images)?d.images.map(l=>({title:String(l.title||''),url:String(l.url||'')})):[],
     quiz:Array.isArray(d.quiz)?d.quiz.map(q=>({q:String(q.q||''),a:q.a==='X'?'X':'O',exp:String(q.exp||'')})):b.quiz,
-    ws:{...b.ws, ...(d.ws||{})}
+    ws:{...b.ws, ...(d.ws||{})},
+    pw:typeof d.pw==='string' && d.pw ? d.pw : DEFAULT_PW
   };
 }
 function load(){ try{ const s=localStorage.getItem(STORE); return s?normalize(JSON.parse(s)):null; }catch(e){ return null; } }
@@ -757,7 +784,11 @@ document.addEventListener('click', e=>{
   const edit=fn=>{ fn(); save(); render(); };
   switch(act){
     case 'tab': tab=v; render(); window.scrollTo(0,0); break;
-    case 'mode': teacher=!teacher; render(); toast(teacher?'교사 모드: 내용을 수정할 수 있습니다.':'수정을 마쳤습니다. 학생 화면으로 전환합니다.'); break;
+    case 'mode':
+      if(teacher){ teacher=false; render(); toast('수정을 마쳤습니다. 학생 화면으로 전환합니다.'); }
+      else openPwLogin();
+      break;
+    case 'chpw': openPwChange(); break;
     case 'addObj': edit(()=>state.objectives.push('')); break;
     case 'delObj': edit(()=>state.objectives.splice(i,1)); break;
     case 'addLink': edit(()=>state.links.push({title:'',url:''})); break;
@@ -842,13 +873,47 @@ document.addEventListener('keydown', e=>{
 });
 document.addEventListener('fullscreenchange',()=>{ if(!document.fullscreenElement && !$('#present').hidden) closePresent(); });
 
-/* 교사 모드에서 '새 수업' / '예시 불러오기' */
+/* 교사 모드 비밀번호 창 */
+function pwModal(html, onOk){
+  const m=$('#pwModal');
+  m.innerHTML=`<form class="box" autocomplete="off">${html}<div class="msg"></div><div class="act"><button type="button" class="btn" data-pw="cancel">취소</button><button type="submit" class="btn pri">확인</button></div></form>`;
+  m.hidden=false;
+  const form=m.querySelector('form'), msg=m.querySelector('.msg');
+  form.querySelector('input').focus();
+  form.addEventListener('submit',ev=>{ ev.preventDefault(); const err=onOk(form); if(err){ msg.textContent=err; form.querySelector('input').select(); } else closePwModal(); });
+  m.querySelector('[data-pw=cancel]').addEventListener('click',closePwModal);
+}
+function closePwModal(){ $('#pwModal').hidden=true; $('#pwModal').innerHTML=''; }
+$('#pwModal').addEventListener('mousedown',e=>{ if(e.target.id==='pwModal') closePwModal(); });
+function openPwLogin(){
+  pwModal(`<h3>🔒 교사 모드</h3><p class="hint">교사 비밀번호를 입력하세요.</p><input type="password" name="pw" placeholder="비밀번호" inputmode="numeric">`, f=>{
+    if(pwHash(f.pw.value)!==state.pw) return '비밀번호가 맞지 않습니다.';
+    teacher=true; render();
+    toast(state.pw===DEFAULT_PW?'교사 모드입니다. 초기 비밀번호(1234)를 사용 중이니 [🔒 비밀번호 변경]을 권장합니다.':'교사 모드: 내용을 수정할 수 있습니다.');
+  });
+}
+function openPwChange(){
+  pwModal(`<h3>🔒 비밀번호 변경</h3><p class="hint">새 비밀번호는 4자 이상으로 정하세요.</p>
+    <label class="f">현재 비밀번호</label><input type="password" name="cur">
+    <label class="f">새 비밀번호</label><input type="password" name="nw">
+    <label class="f">새 비밀번호 확인</label><input type="password" name="nw2">`, f=>{
+    if(pwHash(f.cur.value)!==state.pw) return '현재 비밀번호가 맞지 않습니다.';
+    if(f.nw.value.length<4) return '새 비밀번호는 4자 이상이어야 합니다.';
+    if(f.nw.value!==f.nw2.value) return '새 비밀번호가 서로 다릅니다.';
+    state.pw=pwHash(f.nw.value); save();
+    toast('비밀번호를 변경했습니다. [💾 파일 저장]한 파일에도 새 비밀번호가 적용됩니다.');
+  });
+}
+document.addEventListener('keydown',e=>{ if(e.key==='Escape' && !$('#pwModal').hidden) closePwModal(); });
+
+/* 교사 모드에서 '새 수업' */
 (function addExtraTools(){
   const tools=document.querySelector('.tools');
-  tools.insertAdjacentHTML('beforeend',`<button class="btn" id="newBtn" title="빈 템플릿으로 새로 시작">🆕 새 수업</button>`);
+  tools.insertAdjacentHTML('beforeend',`<button class="btn t-only" id="newBtn" title="빈 템플릿으로 새로 시작">🆕 새 수업</button>`);
   $('#newBtn').addEventListener('click',()=>{
     if(!confirm('현재 내용을 지우고 빈 템플릿(OX 10문항)으로 시작할까요?\n필요하면 먼저 [💾 파일 저장]을 해 두세요.')) return;
-    state=blankLesson(); quizAns={}; quizChecked=false; curImg=0; teacher=true; tab='lesson'; save(); render();
+    const pw=state.pw;
+    state=blankLesson(); state.pw=pw; quizAns={}; quizChecked=false; curImg=0; teacher=true; tab='lesson'; save(); render();
   });
 })();
 
