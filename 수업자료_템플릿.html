@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jua&display=swap">
 <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <style id="pageStyle"></style>
 <style>
 :root{
@@ -171,7 +172,7 @@ label.f{display:block;font-size:12px;color:var(--sub);font-weight:600;margin-bot
 .slide-wrap .no{font-size:12px;color:var(--sub);margin-top:4px}
 /* 슬라이드 색은 디자인 테마 변수(--s-*)로 결정 */
 .slide{--s-pri:#2b5ce6;--s-bg:#fff;--s-ink:#1d2433;--s-hdr:#fff;--s-tbg:#2b5ce6;--s-tink:#fff;--s-tsub:#dce5ff;--s-kw:#d9480f;--s-muted:#8a93a6;--s-box:#eaf0ff;
-  position:relative;aspect-ratio:16/9;background:var(--s-bg);border:1px solid var(--line);border-radius:8px;overflow:hidden;container-type:inline-size;color:var(--s-ink);line-height:1.45}
+  font-family:var(--s-font,inherit);position:relative;aspect-ratio:16/9;background:var(--s-bg);border:1px solid var(--line);border-radius:8px;overflow:hidden;container-type:inline-size;color:var(--s-ink);line-height:1.45}
 .slide-wrap:hover .slide{border-color:var(--pri);box-shadow:0 0 0 3px var(--pri-l)}
 .slide .sh{position:absolute;left:0;top:0;right:0;height:13.3%;background:var(--s-pri);color:var(--s-hdr);font-weight:700;font-size:2.9cqw;display:flex;align-items:center;padding:0 4.5cqw}
 .slide.hs-line .sh{background:none;color:var(--s-pri);left:4.5cqw;right:4.5cqw;top:3.3%;height:10.7%;padding:0;border-bottom:.3cqw solid var(--s-pri)}
@@ -450,6 +451,7 @@ textarea.sa{min-height:90px}
   </header>
   <main id="view"></main>
   <input type="file" id="jsonFile" accept=".json,application/json" hidden>
+  <input type="file" id="pptxFile" accept=".pptx,.potx,.ppsx" hidden>
 </div>
 <div id="printRoot"></div>
 <div id="lightbox" hidden></div>
@@ -613,7 +615,9 @@ function normTheme(c){
   const n=newCustomTheme(), hx=v=>/^[0-9A-F]{6}$/i.test(v||'') ? String(v).toUpperCase() : null;
   return {id:String(c.id), name:String(c.name||n.name), style:['bar','line','side'].includes(c.style)?c.style:'bar',
     pri:hx(c.pri)||n.pri, bg:hx(c.bg)||n.bg, ink:hx(c.ink)||n.ink, kw:hx(c.kw)||n.kw, tbg:hx(c.tbg)||n.tbg, tink:hx(c.tink)||n.tink,
-    bgImg:/^data:image\//.test(c.bgImg||'') ? c.bgImg : ''};
+    bgImg:/^data:image\//.test(c.bgImg||'') ? c.bgImg : '',
+    titleImg:/^data:image\//.test(c.titleImg||'') ? c.titleImg : '',
+    font:String(c.font||'').replace(/['";<>{}]/g,'').slice(0,60)};
 }
 function load(){ try{ const s=localStorage.getItem(STORE); return s?normalize(JSON.parse(s)):null; }catch(e){ return null; } }
 
@@ -965,17 +969,19 @@ function hexMix(a,b,t){
 }
 function contrastInk(h){ const n=parseInt(h,16); return (.299*((n>>16)&255)+.587*((n>>8)&255)+.114*(n&255))/255>.62 ? '212529' : 'FFFFFF'; }
 function deriveTheme(c){ return {...c, custom:true, hdr:contrastInk(c.pri), tsub:hexMix(c.tink,c.tbg,.3), muted:hexMix(c.ink,c.bg,.5), box:hexMix(c.pri,c.bg,.88)}; }
-function newCustomTheme(){ return {id:'my'+Date.now().toString(36), name:'내 템플릿', style:'bar', pri:'0CA678', bg:'FFFFFF', ink:'212529', kw:'E8590C', tbg:'0CA678', tink:'FFFFFF', bgImg:''}; }
+function newCustomTheme(){ return {id:'my'+Date.now().toString(36), name:'내 템플릿', style:'bar', pri:'0CA678', bg:'FFFFFF', ink:'212529', kw:'E8590C', tbg:'0CA678', tink:'FFFFFF', bgImg:'', titleImg:'', font:''}; }
 function allThemes(){ return SLIDE_THEMES.concat(state.customThemes.map(deriveTheme)); }
 function curTheme(){ const a=allThemes(); return a.find(t=>t.id===state.slideTheme) || a[0]; }
-function themeVars(T){
+function themeVars(T, isTitle){
+  const img = isTitle ? (T.titleImg || T.bgImg) : T.bgImg;
   return `--s-pri:#${T.pri};--s-bg:#${T.bg};--s-ink:#${T.ink};--s-hdr:#${T.hdr};--s-tbg:#${T.tbg};--s-tink:#${T.tink};--s-tsub:#${T.tsub};--s-kw:#${T.kw};--s-muted:#${T.muted};--s-box:#${T.box}`
-    + (T.bgImg ? `;background-image:url('${T.bgImg}');background-size:cover;background-position:center` : '');
+    + (T.font ? `;--s-font:'${T.font}',Pretendard,'Malgun Gothic',sans-serif` : '')
+    + (img ? `;background-image:url('${img}');background-size:cover;background-position:center` : '');
 }
 
 function slideHTML(s, i, n, reveal, T){
   T = T || curTheme();
-  const m=state.meta, st=themeVars(T);
+  const m=state.meta, st=themeVars(T, s.type==='title');
   if(s.type==='title') return `<div class="slide title" style="${st}"><span class="tl"></span><div class="tb"><div class="c1">${esc(metaLine())}</div><div class="c2">${esc(m.title||'수업 제목')}</div><div class="c3">${esc(m.unit)}</div></div><div class="c4">${esc([m.date,m.teacher].filter(Boolean).join('   '))}</div></div>`;
   let body='';
   if(s.type==='list') body=`<div class="sb"><ol>${s.items.map(t=>`<li>${esc(t)}</li>`).join('')}</ol></div>`;
@@ -1009,8 +1015,13 @@ function themeEditorHTML(){
       </div>
       <label class="f" style="margin-top:10px">제목 스타일</label>
       <div class="row">${HSTYLES.map(([v,l])=>`<button class="btn sm ${e.style===v?'pri':''}" data-act="teStyle" data-v="${v}">${l}</button>`).join('')}</div>
-      <label class="f" style="margin-top:6px">배경 이미지 (선택 · 모든 슬라이드에 깔림, 16:9 권장)</label>
-      <div class="row"><label class="btn sm">📁 이미지 선택<input type="file" accept="image/*" data-tefile hidden></label>${e.bgImg?`<button class="btn sm del" data-act="teNoImg">이미지 빼기</button>`:''}</div>
+      <label class="f" style="margin-top:6px">본문 배경 이미지 (선택 · 16:9 권장)</label>
+      <div class="row"><label class="btn sm">📁 이미지 선택<input type="file" accept="image/*" data-tefile="bgImg" hidden></label>${e.bgImg?`<button class="btn sm del" data-act="teNoImg" data-v="bgImg">이미지 빼기</button>`:''}</div>
+      <label class="f" style="margin-top:6px">표지 배경 이미지 (선택 · 없으면 본문 배경 사용)</label>
+      <div class="row"><label class="btn sm">📁 이미지 선택<input type="file" accept="image/*" data-tefile="titleImg" hidden></label>${e.titleImg?`<button class="btn sm del" data-act="teNoImg" data-v="titleImg">이미지 빼기</button>`:''}</div>
+      <label class="f" style="margin-top:6px">글꼴 (선택 · PPT 파일에 지정됨, 예: 맑은 고딕, 나눔고딕)</label>
+      <input type="text" data-te="font" value="${esc(e.font||'')}" placeholder="비워 두면 맑은 고딕">
+      <div class="row" style="margin-top:10px"><button class="btn sm" data-act="importPpt">📥 PPT 파일에서 색·배경 다시 가져오기</button></div>
     </div>
     <div id="tePreview">${themePreviewHTML()}</div></div>
     <div class="quiz-foot"><button class="btn pri" data-act="teSave">💾 템플릿 저장</button><button class="btn" data-act="teCancel">취소</button></div></section>`;
@@ -1025,9 +1036,9 @@ function renderSlides(){
     <button class="btn" data-act="present" data-i="0">▶ 발표 모드</button>
     <button class="btn" data-act="printSlides">🖨 슬라이드 출력</button>
     <button class="btn pri" data-act="exportPpt">📥 파워포인트(.pptx) 저장</button></section>
-    <section class="card sec sec-quiz"><h2><span class="ico">🎨</span> 슬라이드 디자인 <span class="count">선택한 디자인이 미리보기 · 발표 · 출력 · PPT 파일에 적용됩니다</span>${teacher?`<span class="right"><button class="btn sm pri" data-act="addTheme">+ 내 템플릿 추가</button></span>`:''}</h2>
+    <section class="card sec sec-quiz"><h2><span class="ico">🎨</span> 슬라이드 디자인 <span class="count">선택한 디자인이 미리보기 · 발표 · 출력 · PPT 파일에 적용됩니다</span>${teacher?`<span class="right"><button class="btn sm pri" data-act="importPpt" title="가지고 있는 PowerPoint 템플릿(.pptx/.potx)의 색·글꼴·배경을 가져옵니다">📥 PPT 템플릿 파일 가져오기</button><button class="btn sm" data-act="addTheme">🎨 직접 만들기</button></span>`:''}</h2>
       <div class="theme-pick">${allThemes().map(themeCard).join('')}</div>
-      ${!teacher?'<p class="hint" style="margin:10px 0 0">교사 모드에서 나만의 템플릿(색 · 제목 스타일 · 배경 이미지)을 추가할 수 있습니다.</p>':''}</section>
+      ${!teacher?'<p class="hint" style="margin:10px 0 0">🔒 교사 모드에서 <b>PPT 템플릿 파일(.pptx/.potx)을 가져오거나</b> 나만의 템플릿(색 · 제목 스타일 · 배경 이미지)을 직접 만들 수 있습니다.</p>':''}</section>
     ${themeEdit&&teacher?themeEditorHTML():''}
     <div class="slide-grid">${S.map((s,i)=>`<div class="slide-wrap" data-act="present" data-i="${i}">${slideHTML(s,i,S.length,teacher)}<div class="no">${i+1}. ${esc(s.type==='title'?'표지':s.title)}${s.type==='quiz'?' · 정답은 슬라이드 노트에 저장':''}</div></div>`).join('')}</div>`;
 }
@@ -1080,13 +1091,14 @@ function toPng(url){
 async function exportPpt(){
   if(!window.PptxGenJS){ toast('PPT 기능을 불러오지 못했습니다. 인터넷 연결을 확인한 뒤 새로고침 하세요.'); return; }
   toast('파워포인트 파일을 만드는 중입니다…');
-  const m=state.meta, S=buildSlides(), F='맑은 고딕', W=13.333;
+  const m=state.meta, S=buildSlides(), F=curTheme().font||'맑은 고딕', W=13.333;
   const P=new PptxGenJS(); P.layout='LAYOUT_WIDE'; P.title=m.title||'수업 자료'; P.author=m.teacher||'';
   const T=curTheme(), PRI=T.pri, INK=T.ink, KW=T.kw, GRAY=T.muted;
   let fails=0;
   for(let i=0;i<S.length;i++){
     const s=S[i], sl=P.addSlide();
-    sl.background = T.bgImg ? {data:T.bgImg} : {color: s.type==='title' ? T.tbg : T.bg};
+    const bgi = s.type==='title' ? (T.titleImg||T.bgImg) : T.bgImg;
+    sl.background = bgi ? {data:bgi} : {color: s.type==='title' ? T.tbg : T.bg};
     if(s.type==='title'){
       sl.addShape('rect',{x:.8,y:1.22,w:1.2,h:.08,fill:{color:T.tsub},line:{color:T.tsub}});
       sl.addText(metaLine(),{x:.8,y:1.5,w:11.7,h:.5,fontSize:18,color:T.tsub,fontFace:F});
@@ -1269,12 +1281,14 @@ document.addEventListener('click', e=>{
       break;
     }
     case 'teStyle': themeEdit.style=v; el.parentNode.querySelectorAll('.btn').forEach(b=>b.classList.toggle('pri',b===el)); $('#tePreview').innerHTML=themePreviewHTML(); break;
-    case 'teNoImg': themeEdit.bgImg=''; render(); break;
+    case 'teNoImg': themeEdit[v]=''; render(); break;
+    case 'importPpt': $('#pptxFile').click(); break;
     case 'teCancel': themeEdit=null; render(); break;
     case 'teSave': {
       themeEdit.name=themeEdit.name.trim()||'내 템플릿';
       const k=state.customThemes.findIndex(c=>c.id===themeEdit.id);
-      if(k>=0) state.customThemes[k]=themeEdit; else state.customThemes.push(themeEdit);
+      const saved=normTheme(themeEdit);
+      if(k>=0) state.customThemes[k]=saved; else state.customThemes.push(saved);
       state.slideTheme=themeEdit.id; themeEdit=null; save(); render();
       toast('내 템플릿을 저장하고 적용했습니다.');
       break;
@@ -1344,8 +1358,13 @@ document.addEventListener('change', async e=>{
   if(t.dataset.ws){ state.ws[t.dataset.ws]=t.checked; save(); $('.ws-preview').innerHTML=worksheetHTML(); }
   if(t.dataset.qtype!==undefined){ const i=+t.dataset.qtype; state.quiz[i]=convertQuestion(state.quiz[i],t.value); save(); render(); }
   if(t.id==='newQType') lastQType=t.value;
+  if(t.id==='pptxFile' && t.files[0]){
+    try{ await importPptTemplate(t.files[0]); }
+    catch(err){ console.error(err); toast('PPT 템플릿을 읽지 못했습니다. PowerPoint에서 저장한 .pptx / .potx 파일인지 확인하세요.'); }
+    t.value='';
+  }
   if(t.dataset.tefile!==undefined && t.files[0] && themeEdit){
-    themeEdit.bgImg=await fileToData(t.files[0]);
+    themeEdit[t.dataset.tefile||'bgImg']=await fileToData(t.files[0]);
     render(); toast('배경 이미지를 넣었습니다. 글자가 잘 보이는지 미리보기로 확인하세요.');
   }
   if(t.dataset.file!==undefined && t.files[0]){
@@ -1374,6 +1393,119 @@ document.addEventListener('keydown', e=>{
   if(e.key==='Escape') $('#lightbox').hidden=true;
 });
 document.addEventListener('fullscreenchange',()=>{ if(!document.fullscreenElement && !$('#present').hidden) closePresent(); });
+
+/* =========================================================
+   PPT 템플릿 파일(.pptx/.potx) 가져오기 → 내 템플릿
+   테마 색 · 글꼴 · 마스터/표지 레이아웃의 배경을 읽는다
+   ========================================================= */
+function imgLum(src){ // 그림의 평균 밝기(0~1)
+  return new Promise(res=>{
+    const im=new Image();
+    im.onload=()=>{
+      const c=document.createElement('canvas'); c.width=c.height=16;
+      const g=c.getContext('2d'); g.drawImage(im,0,0,16,16);
+      const d=g.getImageData(0,0,16,16).data; let s=0;
+      for(let k=0;k<d.length;k+=4) s+=.299*d[k]+.587*d[k+1]+.114*d[k+2];
+      res(s/(d.length/4)/255);
+    };
+    im.onerror=()=>res(1);
+    im.src=src;
+  });
+}
+async function importPptTemplate(file){
+  if(!window.JSZip){ toast('PPT 파일을 읽는 기능을 불러오지 못했습니다. 인터넷 연결을 확인하세요.'); return; }
+  toast('PPT 템플릿을 읽는 중입니다…');
+  const zip=await JSZip.loadAsync(file);
+  const read=p=>zip.file(p) ? zip.file(p).async('string') : Promise.resolve(null);
+  const parse=s=>new DOMParser().parseFromString(s,'application/xml');
+  const tag=(el,n)=>el ? el.getElementsByTagName(n) : [];
+  const resolve=(base,target)=>{
+    if(target.startsWith('/')) return target.slice(1);
+    const parts=base.split('/').slice(0,-1);
+    for(const seg of target.split('/')){ if(seg==='..') parts.pop(); else if(seg!=='.') parts.push(seg); }
+    return parts.join('/');
+  };
+  async function rels(path){
+    const p=path.replace(/([^/]+)$/,'_rels/$1.rels'), s=await read(p), out={};
+    if(s) for(const r of tag(parse(s),'Relationship')) out[r.getAttribute('Id')]={type:r.getAttribute('Type'), target:resolve(path,r.getAttribute('Target'))};
+    return out;
+  }
+
+  // 슬라이드 크기
+  const pres=parse(await read('ppt/presentation.xml')||'<x/>'), sz=tag(pres,'p:sldSz')[0];
+  const sw=+(sz?.getAttribute('cx')||12192000), sh=+(sz?.getAttribute('cy')||6858000);
+
+  // 마스터 · 테마
+  const presRels=await rels('ppt/presentation.xml');
+  const masterPath=Object.values(presRels).find(r=>/slideMaster$/.test(r.type))?.target || 'ppt/slideMasters/slideMaster1.xml';
+  const masterXml=await read(masterPath);
+  if(!masterXml) throw new Error('슬라이드 마스터를 찾을 수 없습니다.');
+  const mRels=await rels(masterPath);
+  const themePath=Object.values(mRels).find(r=>/theme$/.test(r.type))?.target || 'ppt/theme/theme1.xml';
+  const th=parse(await read(themePath)||'<x/>'), themeRels=await rels(themePath);
+  const C={};
+  for(const n of ['dk1','lt1','dk2','lt2','accent1','accent2','accent3']){
+    const el=tag(th,'a:'+n)[0], s=tag(el,'a:srgbClr')[0], y=tag(el,'a:sysClr')[0];
+    C[n]=(s?.getAttribute('val') || y?.getAttribute('lastClr') || '').toUpperCase() || null;
+  }
+  const SCHEME={bg1:'lt1',tx1:'dk1',bg2:'lt2',tx2:'dk2',lt1:'lt1',dk1:'dk1',lt2:'lt2',dk2:'dk2',accent1:'accent1',accent2:'accent2',accent3:'accent3'};
+  const minor=tag(th,'a:minorFont')[0];
+  const font=(tag(minor,'a:ea')[0]?.getAttribute('typeface') || tag(minor,'a:latin')[0]?.getAttribute('typeface') || '').trim();
+
+  // 배경: <p:bg>의 그림/단색, 없으면 화면 대부분을 덮는 그림
+  async function background(path, xmlStr){
+    const x=parse(xmlStr), R=await rels(path), res={};
+    const bg=tag(x,'p:bg')[0];
+    if(bg){
+      const blip=tag(bg,'a:blip')[0];
+      if(blip) res.img=R[blip.getAttribute('r:embed')]?.target;
+      const s=tag(bg,'a:srgbClr')[0], sc=tag(bg,'a:schemeClr')[0];
+      if(s) res.color=s.getAttribute('val').toUpperCase();
+      else if(sc) res.color=C[SCHEME[sc.getAttribute('val')]]||null;
+      // <p:bgRef idx="1001~"> → 테마의 배경 채우기 스타일(그림일 수 있음)
+      const ref=tag(bg,'p:bgRef')[0], idx=+(ref?.getAttribute('idx')||0);
+      if(!res.img && idx>1000){
+        const fill=[...(tag(th,'a:bgFillStyleLst')[0]?.children||[])][idx-1001];
+        const fb=fill && fill.localName==='blipFill' ? tag(fill,'a:blip')[0] : null;
+        if(fb) res.img=themeRels[fb.getAttribute('r:embed')]?.target;
+      }
+    }
+    if(!res.img) for(const pic of tag(x,'p:pic')){
+      const ext=tag(tag(pic,'a:xfrm')[0],'a:ext')[0], b=tag(pic,'a:blip')[0];
+      if(ext && b && +ext.getAttribute('cx')>=sw*.8 && +ext.getAttribute('cy')>=sh*.8){ res.img=R[b.getAttribute('r:embed')]?.target; break; }
+    }
+    if(res.img){
+      const f=zip.file(res.img), ext=(res.img.split('.').pop()||'').toLowerCase();
+      const mime={png:'image/png',jpg:'image/jpeg',jpeg:'image/jpeg',gif:'image/gif',bmp:'image/bmp'}[ext];
+      res.img = f && mime ? await fileToData(new Blob([await f.async('arraybuffer')],{type:mime})) : '';
+    }
+    return res;
+  }
+  const mb=await background(masterPath, masterXml);
+  let tb={};
+  for(const r of Object.values(mRels).filter(r=>/slideLayout$/.test(r.type))){
+    const s=await read(r.target);
+    if(s && parse(s).documentElement.getAttribute('type')==='title'){ tb=await background(r.target, s); break; }
+  }
+
+  // 글자색: 배경(그림이면 그림의 평균 밝기, 아니면 배경색)에 따라 밝은/어두운 색 선택
+  const light=C.lt1||'FFFFFF', dark=C.dk1||'212529';
+  const inkOn=async (img,color)=> (img ? await imgLum(img) < .55 : contrastInk(color)==='FFFFFF') ? light : dark;
+  const bg=mb.color || C.lt1 || 'FFFFFF';
+  const tbg=tb.color || (tb.img||mb.img ? bg : (C.accent1||'2B5CE6'));
+  const ink=await inkOn(mb.img, bg);
+  const base=themeEdit || newCustomTheme();
+  themeEdit={...base,
+    name:file.name.replace(/\.(pptx|potx|ppsx)$/i,'').slice(0,30) || '가져온 템플릿',
+    style: mb.img ? 'line' : 'bar',
+    pri:C.accent1||base.pri, kw:C.accent2||base.kw, bg, ink, tbg,
+    tink: await inkOn(tb.img||mb.img, tbg),
+    bgImg:mb.img||'', titleImg:tb.img||'', font};
+  tab='slides'; render();
+  setTimeout(()=>$('#tePreview')?.scrollIntoView({block:'center'}),50);
+  const got=['테마 색', font&&'글꼴('+font+')', mb.img&&'본문 배경', tb.img&&'표지 배경'].filter(Boolean);
+  toast(`가져왔습니다: ${got.join(', ')} · 확인 후 [💾 템플릿 저장]`);
+}
 
 /* 교사 모드 비밀번호 창 */
 function pwModal(html, onOk){
