@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>수업 자료 템플릿</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jua&display=swap">
 <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
 <style id="pageStyle"></style>
 <style>
@@ -168,37 +169,56 @@ label.f{display:block;font-size:12px;color:var(--sub);font-weight:600;margin-bot
 .slide-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
 .slide-wrap{cursor:pointer}
 .slide-wrap .no{font-size:12px;color:var(--sub);margin-top:4px}
-.slide{position:relative;aspect-ratio:16/9;background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden;container-type:inline-size;color:#1d2433;line-height:1.45}
+/* 슬라이드 색은 디자인 테마 변수(--s-*)로 결정 */
+.slide{--s-pri:#2b5ce6;--s-bg:#fff;--s-ink:#1d2433;--s-hdr:#fff;--s-tbg:#2b5ce6;--s-tink:#fff;--s-tsub:#dce5ff;--s-kw:#d9480f;--s-muted:#8a93a6;--s-box:#eaf0ff;
+  position:relative;aspect-ratio:16/9;background:var(--s-bg);border:1px solid var(--line);border-radius:8px;overflow:hidden;container-type:inline-size;color:var(--s-ink);line-height:1.45}
 .slide-wrap:hover .slide{border-color:var(--pri);box-shadow:0 0 0 3px var(--pri-l)}
-.slide .sh{position:absolute;left:0;top:0;right:0;height:13.3%;background:var(--pri);color:#fff;font-weight:700;font-size:2.9cqw;display:flex;align-items:center;padding:0 4.5cqw}
+.slide .sh{position:absolute;left:0;top:0;right:0;height:13.3%;background:var(--s-pri);color:var(--s-hdr);font-weight:700;font-size:2.9cqw;display:flex;align-items:center;padding:0 4.5cqw}
+.slide.hs-line .sh{background:none;color:var(--s-pri);left:4.5cqw;right:4.5cqw;top:3.3%;height:10.7%;padding:0;border-bottom:.3cqw solid var(--s-pri)}
+.slide.hs-side .sh{background:none;color:var(--s-ink);top:3.3%;height:10.7%;padding:0 4.5cqw}
+.slide.hs-side .sh::before{content:'';position:absolute;left:0;top:0;bottom:0;width:1.35cqw;background:var(--s-pri)}
 .slide .sb{position:absolute;left:6cqw;right:6cqw;top:18.5%;bottom:10%;font-size:2.5cqw;overflow:hidden}
 .slide .sb ol,.slide .sb ul{margin:0;padding-left:1.2em}
 .slide .sb li{margin-bottom:.5em}
+.slide .sb li::marker{color:var(--s-pri)}
 .slide .sb p{margin:0 0 .4em}
-.slide .sb .hd{color:var(--pri);font-weight:700}
-.slide .sb b.k{color:var(--kw)}
-.slide .sf{position:absolute;left:4.5cqw;right:4.5cqw;bottom:2.2%;font-size:1.15cqw;color:#8a93a6;display:flex;justify-content:space-between}
-.slide.title{background:var(--pri);color:#fff}
+.slide .sb .hd{color:var(--s-pri);font-weight:700}
+.slide .sb b.k{color:var(--s-kw)}
+.slide .sf{position:absolute;left:4.5cqw;right:4.5cqw;bottom:2.2%;font-size:1.15cqw;color:var(--s-muted);display:flex;justify-content:space-between}
+.slide.title{background:var(--s-tbg);color:var(--s-tink)}
 .slide.title .tb{position:absolute;left:6cqw;right:6cqw;top:21%}
-.slide.title .c1{font-size:1.9cqw;color:#dce5ff}
+.slide.title .c1{font-size:1.9cqw;color:var(--s-tsub)}
 .slide.title .c2{font-size:4.6cqw;font-weight:800;margin:1.5cqw 0;line-height:1.25}
 .slide.title .c3{font-size:2.3cqw}
-.slide.title .c4{position:absolute;left:6cqw;bottom:9%;font-size:1.5cqw;color:#dce5ff}
+.slide.title .c4{position:absolute;left:6cqw;bottom:9%;font-size:1.5cqw;color:var(--s-tsub)}
+.slide.title .tl{position:absolute;left:6cqw;top:17%;width:9cqw;height:.6cqw;background:var(--s-tsub)}
 .slide .simg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
 .slide .simg img{max-width:100%;max-height:100%;object-fit:contain}
 .slide .q{position:absolute;left:8cqw;right:8cqw;top:20%;height:34%;display:flex;align-items:center;justify-content:center;text-align:center;font-size:3.4cqw;font-weight:700}
+.slide .q.up{top:16%;height:28%;font-size:3cqw}
 .slide .qb{position:absolute;left:0;right:0;top:60%;display:flex;justify-content:center;gap:12cqw}
 .slide .qb span{width:12cqw;height:12cqw;border-radius:50%;display:grid;place-items:center;font-size:7cqw;font-weight:800;color:#fff}
 .slide .qb .o{background:var(--o)} .slide .qb .x{background:var(--x)}
-.slide .qb span.dim{opacity:.18}
-.slide .ans{display:none;position:absolute;left:8cqw;right:8cqw;bottom:6%;text-align:center;font-size:1.9cqw;color:#444}
+.slide .sch{position:absolute;left:8cqw;right:8cqw;top:47%;display:grid;grid-template-columns:1fr 1fr;gap:1.4cqw;font-size:2.1cqw}
+.slide .sch div{border:.2cqw solid var(--s-muted);border-radius:1.2cqw;padding:.9cqw 1.5cqw;background:var(--s-box)}
+.slide .sch b{color:var(--s-pri)}
+.slide.reveal .sch div.is{border-color:var(--o);background:var(--o-l);color:#1d2433;font-weight:700}
+.slide .sbox{position:absolute;left:25%;right:25%;top:62%;border-bottom:.3cqw solid var(--s-ink);font-size:2.4cqw;padding-bottom:.5cqw}
+.slide .sess{position:absolute;left:10cqw;right:10cqw;top:47%;bottom:15%;border:.25cqw dashed var(--s-muted);border-radius:1.2cqw}
+.slide .ans{display:none;position:absolute;left:8cqw;right:8cqw;bottom:5%;text-align:center;font-size:1.9cqw;color:var(--s-ink);background:var(--s-bg)}
 .slide.reveal .ans{display:block}
 .slide.reveal .qb span:not(.is){opacity:.18}
-.slide table{width:100%;border-collapse:collapse;font-size:1.45cqw}
-.slide th,.slide td{border:1px solid #ccd3e0;padding:.35em .6em}
-.slide th{background:var(--pri-l)}
-.slide .lnk{color:var(--pri);text-decoration:underline}
-.slide .lnk small{color:#8a93a6;text-decoration:none;display:block;font-size:.6em}
+.slide table{width:100%;border-collapse:collapse;font-size:1.35cqw}
+.slide th,.slide td{border:1px solid var(--s-muted);padding:.35em .6em}
+.slide th{background:var(--s-box)}
+.slide .lnk{color:var(--s-pri);text-decoration:underline}
+.slide .lnk small{color:var(--s-muted);text-decoration:none;display:block;font-size:.6em}
+/* 디자인 선택 */
+.theme-pick{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:12px}
+.theme-pick > div > button{border:2px solid var(--line);background:#fff;border-radius:14px;padding:6px 6px 8px;cursor:pointer;text-align:center;font-weight:700;font-size:13px;transition:transform .15s,border-color .15s}
+.theme-pick > div > button:hover{transform:translateY(-3px)}
+.theme-pick > div > button.on{border-color:#6d5df5;box-shadow:0 0 0 3px #e5dbff}
+.theme-pick .slide{border-radius:8px;margin-bottom:6px;pointer-events:none}
 
 /* 발표 모드 */
 #present{position:fixed;inset:0;background:#0d1220;z-index:100;display:flex;align-items:center;justify-content:center}
@@ -241,17 +261,183 @@ body.teacher .t-only{display:inline-flex!important}
   .print-slide .slide{border:1px solid #ccc;border-radius:0}
   *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 }
+
+/* =========================================================
+   재미·역동 테마 (화면 전용)
+   ========================================================= */
+html{scroll-behavior:smooth}
+body{background:#f6f4ff}
+.bg-deco{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.bg-deco i{position:absolute;border-radius:50%;filter:blur(70px);opacity:.4;animation:drift 18s ease-in-out infinite alternate}
+.bg-deco i:nth-child(1){width:420px;height:420px;background:#a5b4fc;left:-120px;top:80px}
+.bg-deco i:nth-child(2){width:360px;height:360px;background:#fbcfe8;right:-100px;top:320px;animation-duration:22s}
+.bg-deco i:nth-child(3){width:380px;height:380px;background:#bbf7d0;left:30%;bottom:-160px;animation-duration:26s}
+.bg-deco i:nth-child(4){width:260px;height:260px;background:#fde68a;right:22%;top:-90px;animation-duration:20s}
+@keyframes drift{to{transform:translate(70px,50px) scale(1.2)}}
+.fun,.brand,.card h2,.hero h1,.content h4,.result .rt,.ring b{font-family:Jua,Pretendard,'Malgun Gothic',sans-serif;font-weight:400}
+
+.topbar{background:rgba(255,255,255,.85);backdrop-filter:blur(12px);border-bottom:0;box-shadow:0 4px 20px rgba(80,70,160,.08)}
+.brand{font-size:22px}
+.brand small{font-family:Pretendard,'Malgun Gothic',sans-serif}
+.brand .logo{display:inline-block;animation:bounce 2.4s ease-in-out infinite}
+@keyframes bounce{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-5px) rotate(-8deg)}}
+.tabs{background:#efeafd;border-radius:14px}
+.tabs button{border-radius:11px;transition:.2s}
+.tabs button:hover{color:#6d4ee6}
+.tabs button.on{background:linear-gradient(135deg,#6d5df5,#b05cf0);color:#fff;box-shadow:0 4px 12px rgba(120,80,240,.35)}
+.sprog{height:4px;width:0;background:linear-gradient(90deg,#ff6b6b,#ffd43b,#51cf66,#339af0,#845ef7)}
+.btn{border-radius:12px;border-width:2px;box-shadow:0 3px 0 rgba(0,0,0,.07);transition:transform .12s,box-shadow .12s,background .2s}
+.btn:hover{transform:translateY(-1px)}
+.btn:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(0,0,0,.07)}
+.btn.pri{background:linear-gradient(135deg,#6d5df5,#b05cf0);border-color:transparent;box-shadow:0 3px 0 #4b3bc4}
+.btn.pri:hover{background:linear-gradient(135deg,#5b4be8,#9d48e0)}
+
+main{padding-top:24px}
+.card{border:0;border-radius:22px;box-shadow:0 2px 0 rgba(60,50,140,.04),0 12px 32px rgba(80,70,160,.08);position:relative;overflow:hidden;transition:transform .25s,box-shadow .25s;scroll-margin-top:90px}
+body:not(.teacher) .card.sec:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(80,70,160,.14)}
+.card.sec::before{content:'';position:absolute;left:0;top:0;right:0;height:6px;background:var(--ac)}
+.card h2{font-size:22px}
+.card h2 .count{font-family:Pretendard,'Malgun Gothic',sans-serif}
+.card h2 .ico{width:42px;height:42px;border-radius:14px;background:var(--acl);display:inline-grid;place-items:center;font-size:22px;transform:rotate(-6deg);transition:transform .3s cubic-bezier(.3,1.6,.5,1)}
+.card:hover h2 .ico{transform:rotate(8deg) scale(1.12)}
+.sec-info{--ac:linear-gradient(90deg,#94a3b8,#cbd5e1);--acl:#f1f5f9}
+.sec-obj{--ac:linear-gradient(90deg,#ff6b6b,#ffa94d);--acl:#fff0e6}
+.sec-link{--ac:linear-gradient(90deg,#339af0,#22b8cf);--acl:#e7f5ff}
+.sec-content{--ac:linear-gradient(90deg,#51cf66,#94d82d);--acl:#ebfbee}
+.sec-img{--ac:linear-gradient(90deg,#f06595,#cc5de8);--acl:#fff0f6}
+.sec-quiz{--ac:linear-gradient(90deg,#845ef7,#5c7cfa);--acl:#f3f0ff}
+
+/* 히어로 */
+.hero{background:linear-gradient(120deg,#5b5bf0,#9b5de5,#f15bb5,#ff8c42,#5b5bf0);background-size:400% 400%;animation:grad 16s ease infinite;padding:34px 32px 28px;border-radius:26px;box-shadow:0 18px 40px rgba(120,80,240,.25)}
+@keyframes grad{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.hero h1{font-size:42px;text-shadow:0 3px 0 rgba(0,0,0,.12);margin:12px 0 6px}
+.hero .chip{background:rgba(255,255,255,.22);font-weight:600}
+.hero .float{position:absolute;font-size:46px;animation:bob 5s ease-in-out infinite;filter:drop-shadow(0 6px 8px rgba(0,0,0,.15));pointer-events:none}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(-6deg)}50%{transform:translateY(-14px) rotate(6deg)}}
+.hero-in{position:relative;z-index:1;max-width:72%}
+.jump{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px;position:relative;z-index:1}
+.jump a{background:#fff;color:#4c3bd6;text-decoration:none;padding:7px 14px;border-radius:99px;font-weight:700;font-size:14px;box-shadow:0 3px 0 rgba(0,0,0,.12);transition:transform .15s}
+.jump a:hover{transform:translateY(-3px) scale(1.05)}
+@media (max-width:700px){.hero-in{max-width:100%}.hero h1{font-size:30px}.hero .float{opacity:.3}}
+
+/* 학습 목표 */
+.obj-list li{cursor:pointer;border-radius:12px;padding:10px;border-bottom:0!important;margin-bottom:6px;background:#fff8f3;transition:background .2s,transform .2s}
+.obj-list li:hover{transform:translateX(4px)}
+.obj-list li::before{background:linear-gradient(135deg,#ff6b6b,#ffa94d);color:#fff}
+.obj-list li.done{background:#ebfbee}
+.obj-list li.done::before{content:'✔';background:#40c057;animation:pop .4s}
+.obj-meter{font-size:13px;color:var(--sub);margin-top:8px;display:flex;align-items:center;gap:10px}
+.obj-meter .b{flex:1;height:8px;background:#f1f3f5;border-radius:99px;overflow:hidden}
+.obj-meter .b i{display:block;height:100%;background:linear-gradient(90deg,#ff6b6b,#ffa94d,#40c057);transition:width .4s}
+@keyframes pop{0%{transform:scale(.4)}60%{transform:scale(1.3)}100%{transform:scale(1)}}
+@keyframes jelly{0%,100%{transform:scale(1)}40%{transform:scale(1.03)}70%{transform:scale(.99)}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-7px)}40%,80%{transform:translateX(7px)}}
+@keyframes rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+
+/* 링크 */
+.link-card{border-radius:16px;border-width:2px;transition:transform .2s,box-shadow .2s}
+.link-card:hover{transform:translateY(-3px) rotate(-1deg);box-shadow:0 10px 20px rgba(51,154,240,.2);border-color:#339af0;background:#e7f5ff}
+.link-card .ic{flex:none;width:42px;height:42px;border-radius:12px;background:#e7f5ff;display:grid;place-items:center}
+
+/* 수업 내용 */
+.content{font-size:16px}
+.content h4{font-size:20px;color:#2b8a3e}
+.content h4::before{content:'✨ '}
+.content ul li::marker{color:#51cf66}
+.content mark{background:linear-gradient(transparent 55%,#ffe066 55%);color:#d9480f;padding:0 2px;border-radius:0;transition:background .2s}
+.content mark:hover{background:#ffe066}
+.content.hidekw mark{background:#495057;color:transparent;border-radius:6px;cursor:pointer;user-select:none}
+.content.hidekw mark:hover{background:#343a40}
+.content.hidekw mark.peek{background:#ffe066;color:#d9480f;animation:pop .35s}
+
+/* 사진 */
+.viewer{border-radius:18px;border:0;background:#fdf2f8}
+.viewer img{animation:fadeZoom .45s ease}
+@keyframes fadeZoom{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:none}}
+.img-link{border-radius:14px;border-width:2px;text-decoration:none;color:#c2255c;transition:transform .15s}
+.img-link:hover{transform:translateX(4px);background:#fff0f6}
+.img-link.on{background:linear-gradient(135deg,#f06595,#cc5de8);color:#fff;border-color:transparent}
+.img-link img{width:44px;height:32px;object-fit:cover;border-radius:7px;background:#fff;flex:none}
+
+/* 퀴즈 */
+.qprog{position:relative;height:28px;background:#f1effc;border-radius:99px;overflow:hidden;margin-bottom:14px}
+.qprog i{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,#845ef7,#5c7cfa,#22b8cf);border-radius:99px;transition:width .45s cubic-bezier(.3,1.4,.5,1)}
+.qprog span{position:relative;z-index:1;display:block;text-align:center;font-weight:800;font-size:13px;line-height:28px;color:#3b2a9e}
+.qi{border-radius:16px;border-width:2px;transition:transform .2s,border-color .2s}
+.qi:hover{transform:translateX(3px)}
+.qi .qn{border-radius:12px;background:linear-gradient(135deg,#845ef7,#5c7cfa);color:#fff}
+.qi.answered{border-color:#d0bfff}
+.qi.right{animation:jelly .5s}
+.qi.wrong{animation:shake .5s}
+.ox button{transition:transform .15s}
+.ox button:hover:not(:disabled){transform:scale(1.12)}
+.ox button.pop{animation:pop .35s}
+.result{display:flex;gap:18px;align-items:center;padding:18px 20px;border-radius:18px;background:linear-gradient(135deg,#f3f0ff,#e7f5ff);margin-bottom:14px;animation:rise .5s both}
+.result .rt{font-size:24px}
+.ring{--p:0;width:96px;height:96px;border-radius:50%;background:conic-gradient(#845ef7 calc(var(--p) * 1%),#e9ecef 0);display:grid;place-items:center;flex:none;position:relative}
+.ring::after{content:'';position:absolute;inset:10px;background:#fff;border-radius:50%}
+.ring b{position:relative;z-index:1;font-size:28px;color:#5f3dc4}
+
+/* 탭 전환 등장 효과 */
+#view.anim > *{animation:rise .55s cubic-bezier(.2,.8,.3,1) both}
+#view.anim > *:nth-child(2){animation-delay:.07s}
+#view.anim > *:nth-child(3){animation-delay:.14s}
+#view.anim > *:nth-child(4){animation-delay:.21s}
+#view.anim > *:nth-child(5){animation-delay:.28s}
+#view.anim > *:nth-child(n+6){animation-delay:.35s}
+
+/* 퀴즈 유형 */
+.qi:not(.t-ox){align-items:start}
+.qtag{display:inline-block;font-size:11px;font-weight:700;color:#5f3dc4;background:#f3f0ff;border-radius:99px;padding:1px 9px;margin-bottom:3px}
+.chs{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
+@media (max-width:600px){.chs{grid-template-columns:1fr}}
+.ch{text-align:left;border:2px solid var(--line);background:#fff;border-radius:12px;padding:8px 12px;cursor:pointer;transition:transform .15s,border-color .15s}
+.ch:hover:not(:disabled){border-color:#845ef7;transform:translateY(-2px)}
+.ch b{color:#845ef7;margin-right:2px}
+.ch.sel{border-color:#845ef7;background:#f3f0ff;font-weight:700}
+.ch.correct{border-color:var(--o);background:var(--o-l)}
+.ch.bad{border-color:var(--x);background:var(--x-l)}
+.ch:disabled{cursor:default}
+.ch.pop{animation:jelly .4s}
+.sa{margin-top:8px}
+textarea.sa{min-height:90px}
+.qi.essay{border-color:#b197fc;background:#f8f5ff}
+.qe .qtop{display:flex;gap:8px;align-items:center}
+.qe select,.quiz-foot select{border:2px solid #d0bfff;border-radius:10px;padding:6px 10px;background:#fff;font-weight:700;color:#5f3dc4;cursor:pointer}
+.chs-edit{display:grid;gap:6px}
+.ch-row{display:flex;gap:6px;align-items:center}
+.ch-pick{flex:none;width:34px;height:34px;border-radius:50%;border:2px solid var(--line);background:#fff;cursor:pointer;font-size:16px;font-weight:700;color:var(--sub)}
+.ch-pick.sel{background:var(--o);border-color:var(--o);color:#fff}
+.ans-row{display:flex;align-items:center;gap:10px}
+.ans-row .lb{font-size:12px;font-weight:700;color:var(--sub)}
+.theme-pick > div > button{width:100%}
+/* 학습지 퀴즈 */
+.wq{margin-bottom:9px;break-inside:avoid}
+.wq-h{display:flex;gap:6px;align-items:baseline}
+.wq-h > b{flex:none}
+.wq-t{font-size:8.5pt;color:#666}
+.wq-ox{margin-left:auto;flex:none;font-weight:700;white-space:nowrap;padding-left:10px}
+.wq-ch{display:grid;grid-template-columns:1fr 1fr;gap:2px 20px;padding-left:20px;margin-top:2px}
+.wq-ch.one{grid-template-columns:1fr}
+.wq-short{padding-left:20px;margin-top:4px}
+.wq-short span{display:inline-block;width:70mm;border-bottom:1px solid #333}
+.wq-ess{padding-left:20px}
+
+#toast{border-radius:99px;background:linear-gradient(135deg,#6d5df5,#b05cf0);box-shadow:0 8px 24px rgba(120,80,240,.35);font-weight:600}
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:300}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
 <div class="app">
+  <div class="bg-deco"><i></i><i></i><i></i><i></i></div>
   <header class="topbar">
     <div class="topbar-in">
-      <div class="brand">📘 수업 자료 템플릿 <small id="saveState">자동 저장됨</small></div>
+      <div class="brand"><span class="logo">📘</span> 수업 자료 템플릿 <small id="saveState">자동 저장됨</small></div>
       <nav class="tabs">
-        <button data-act="tab" data-v="lesson">수업 화면</button>
-        <button data-act="tab" data-v="ws">학습지</button>
-        <button data-act="tab" data-v="slides">PPT 슬라이드</button>
+        <button data-act="tab" data-v="lesson">🏫 수업 화면</button>
+        <button data-act="tab" data-v="ws">📝 학습지</button>
+        <button data-act="tab" data-v="slides">🖥️ PPT 슬라이드</button>
       </nav>
       <div class="tools">
         <button class="btn warn" id="modeBtn" data-act="mode">✏️ 교사 모드</button>
@@ -260,6 +446,7 @@ body.teacher .t-only{display:inline-flex!important}
       </div>
     </div>
     <div class="teacher-band">교사 모드 · 모든 항목을 수정할 수 있습니다. 입력 내용은 이 브라우저에 자동 저장되며, 다른 컴퓨터에서 쓰려면 [💾 파일 저장]을 이용하세요.<button class="btn sm" data-act="chpw">🔒 비밀번호 변경</button></div>
+    <div class="sprog"></div>
   </header>
   <main id="view"></main>
   <input type="file" id="jsonFile" accept=".json,application/json" hidden>
@@ -287,6 +474,52 @@ function pwHash(s){
   return (h2>>>0).toString(16).padStart(8,'0') + (h1>>>0).toString(16).padStart(8,'0');
 }
 const DEFAULT_PW = pwHash('1234');
+
+/* 퀴즈 유형 */
+const QTYPES = [['ox','OX형'],['mc4','4지 선다형'],['mcq','퀴즈형 (객관식·보기 자유)'],['short','단답형'],['essay','서술형']];
+const QLABEL = Object.fromEntries(QTYPES);
+const QSHORT = {ox:'OX', mc4:'4지 선다', mcq:'객관식', short:'단답형', essay:'서술형'};
+const isChoice = t => t==='mc4' || t==='mcq';
+function newQuestion(type){
+  const q={type, q:'', a:'', choices:[], exp:''};
+  if(type==='ox') q.a='O';
+  if(type==='mc4'){ q.choices=['','','','']; q.a='0'; }
+  if(type==='mcq'){ q.choices=['','','']; q.a='0'; }
+  return q;
+}
+function convertQuestion(q, type){
+  const n={...newQuestion(type), q:q.q, exp:q.exp};
+  if(isChoice(type) && isChoice(q.type)){ n.choices=q.choices.slice(); n.a=q.a; }
+  if(type==='mc4'){ n.choices=n.choices.slice(0,4); while(n.choices.length<4) n.choices.push(''); if(+n.a>3) n.a='0'; }
+  if((type==='short'||type==='essay') && (q.type==='short'||q.type==='essay')) n.a=q.a;
+  return n;
+}
+function normQ(q){
+  q = q || {};
+  const type = QLABEL[q.type] ? q.type : 'ox';
+  const n={type, q:String(q.q||''), a:String(q.a??''), choices:Array.isArray(q.choices)?q.choices.map(String):[], exp:String(q.exp||'')};
+  if(type==='ox') n.a = n.a==='X' ? 'X' : 'O';
+  if(isChoice(type)){
+    const min = type==='mc4' ? 4 : 2;
+    if(type==='mc4') n.choices=n.choices.slice(0,4);
+    while(n.choices.length<min) n.choices.push('');
+    if(!(+n.a>=0 && +n.a<n.choices.length) || n.a==='') n.a='0';
+  }
+  return n;
+}
+function answerText(q){
+  if(q.type==='ox') return q.a;
+  if(isChoice(q.type)) return circ(+q.a+1)+' '+(q.choices[+q.a]||'');
+  if(q.type==='short') return q.a.split(/[,\/]/).map(s=>s.trim()).filter(Boolean).join(' / ');
+  return q.a;
+}
+const gradable = q => q.type!=='essay';
+function isCorrect(q, ans){
+  if(ans==null || String(ans).trim()==='') return false;
+  if(q.type==='short'){ const nz=s=>String(s).replace(/\s+/g,'').toLowerCase(); return q.a.split(/[,\/]/).map(nz).filter(Boolean).includes(nz(ans)); }
+  return String(ans)===String(q.a);
+}
+function qtypeOptions(sel){ return QTYPES.map(([v,l])=>`<option value="${v}" ${v===sel?'selected':''}>${l}</option>`).join(''); }
 
 function svgData(svg){ return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg); }
 const SAMPLE_IMG1 = svgData(`<svg xmlns="http://www.w3.org/2000/svg" width="960" height="600" viewBox="0 0 960 600" font-family="Malgun Gothic,sans-serif">
@@ -343,21 +576,21 @@ function sample(){
       {q:'물의 순환 과정에서 지구 전체 물의 양은 계속 줄어든다.', a:'X', exp:'지구 전체 물의 양은 일정하게 유지된다.'},
       {q:'식물의 잎에서 물이 수증기로 빠져나가는 현상을 증산 작용이라고 한다.', a:'O', exp:''},
       {q:'지하수는 물의 순환에 참여하지 않는다.', a:'X', exp:'지하수도 천천히 이동하며 순환에 참여한다.'},
-      {q:'지구에 있는 물의 대부분은 바닷물이다.', a:'O', exp:'바닷물이 약 97% 이상을 차지한다.'},
-      {q:'응결은 기체가 액체로 변하는 현상이다.', a:'O', exp:''},
-      {q:'물의 순환은 대기 중에서만 일어난다.', a:'X', exp:'대기, 바다, 육지, 생물을 모두 거쳐 일어난다.'}
-    ],
+      {type:'mc4', q:'수증기가 냉각되어 작은 물방울로 변하는 현상은?', choices:['증발','응결','강수','증산'], a:'1', exp:'기체가 액체로 변하는 현상이 응결이다.'},
+      {type:'short', q:'구름에서 비나 눈이 되어 지표로 떨어지는 현상을 무엇이라고 하는가?', a:'강수', exp:''},
+      {type:'essay', q:'물의 순환이 우리 생활에 주는 이로운 점을 두 가지 쓰시오.', a:'예) 비가 내려 마실 물과 농업용수를 얻을 수 있다. 물이 이동하면서 지구의 열을 고르게 나누어 준다.', exp:'두 가지를 까닭과 함께 쓰면 만점'}
+    ].map(normQ),
     ws:{obj:true, blank:true, ox:true, img:true, reflect:true, answer:true},
-    pw:DEFAULT_PW
+    pw:DEFAULT_PW, slideTheme:'classic', customThemes:[]
   };
 }
 function blankLesson(){
   return {
     meta:{subject:'', grade:'', unit:'', title:'새 수업', date:new Date().toISOString().slice(0,10), teacher:''},
     objectives:[''], content:'', links:[], images:[],
-    quiz:Array.from({length:10},()=>({q:'',a:'O',exp:''})),
+    quiz:Array.from({length:10},()=>newQuestion('ox')),
     ws:{obj:true, blank:true, ox:true, img:true, reflect:true, answer:true},
-    pw:DEFAULT_PW
+    pw:DEFAULT_PW, slideTheme:'classic', customThemes:[]
   };
 }
 function normalize(d){
@@ -369,10 +602,18 @@ function normalize(d){
     content:typeof d.content==='string'?d.content:'',
     links:Array.isArray(d.links)?d.links.map(l=>({title:String(l.title||''),url:String(l.url||'')})):[],
     images:Array.isArray(d.images)?d.images.map(l=>({title:String(l.title||''),url:String(l.url||'')})):[],
-    quiz:Array.isArray(d.quiz)?d.quiz.map(q=>({q:String(q.q||''),a:q.a==='X'?'X':'O',exp:String(q.exp||'')})):b.quiz,
+    quiz:(Array.isArray(d.quiz)?d.quiz:b.quiz).map(normQ),
     ws:{...b.ws, ...(d.ws||{})},
-    pw:typeof d.pw==='string' && d.pw ? d.pw : DEFAULT_PW
+    pw:typeof d.pw==='string' && d.pw ? d.pw : DEFAULT_PW,
+    slideTheme:typeof d.slideTheme==='string' ? d.slideTheme : 'classic',
+    customThemes:Array.isArray(d.customThemes) ? d.customThemes.filter(c=>c && c.id).map(normTheme) : []
   };
+}
+function normTheme(c){
+  const n=newCustomTheme(), hx=v=>/^[0-9A-F]{6}$/i.test(v||'') ? String(v).toUpperCase() : null;
+  return {id:String(c.id), name:String(c.name||n.name), style:['bar','line','side'].includes(c.style)?c.style:'bar',
+    pri:hx(c.pri)||n.pri, bg:hx(c.bg)||n.bg, ink:hx(c.ink)||n.ink, kw:hx(c.kw)||n.kw, tbg:hx(c.tbg)||n.tbg, tink:hx(c.tink)||n.tink,
+    bgImg:/^data:image\//.test(c.bgImg||'') ? c.bgImg : ''};
 }
 function load(){ try{ const s=localStorage.getItem(STORE); return s?normalize(JSON.parse(s)):null; }catch(e){ return null; } }
 
@@ -382,6 +623,10 @@ let tab = 'lesson';
 let curImg = 0;
 let quizAns = {};
 let quizChecked = false;
+let objDone = new Set();
+let lastQType = 'ox';
+let themeEdit = null;
+let hideKw = false;
 let presentIdx = 0, presentSlides = [];
 
 let saveTimer;
@@ -426,7 +671,7 @@ function contentHTML(text, mode){ // mode: view | blank | slide
   let html='', inList=false, n=0; const answers=[];
   const fmt = s => segs(s).map(g=>{
     if(!g.k) return esc(g.t);
-    if(mode==='view') return `<mark>${esc(g.t)}</mark>`;
+    if(mode==='view') return `<mark data-act="peek">${esc(g.t)}</mark>`;
     if(mode==='slide') return `<b class="k">${esc(g.t)}</b>`;
     n++; answers.push(g.t); return `<span class="blank"><b>${circ(n)}</b></span>`;
   }).join('');
@@ -450,7 +695,7 @@ function renderLesson(){
 
   // 1. 수업 정보
   if(T){
-    h+=`<section class="card"><h2>📋 수업 정보</h2><div class="meta-grid">
+    h+=`<section class="card sec sec-info"><h2><span class="ico">📋</span> 수업 정보</h2><div class="meta-grid">
       <div><label class="f">과목</label>${inp('meta.subject',m.subject,'예: 과학')}</div>
       <div><label class="f">학년 / 대상</label>${inp('meta.grade',m.grade,'예: 중학교 1학년')}</div>
       <div><label class="f">수업 일자</label>${inp('meta.date',m.date,'','date')}</div>
@@ -459,19 +704,24 @@ function renderLesson(){
       <div class="wide" style="grid-column:1/-1"><label class="f">차시 제목 (학습 주제)</label>${inp('meta.title',m.title,'예: 물은 어떻게 순환할까?')}</div>
     </div></section>`;
   }else{
-    h+=`<section class="card hero"><div class="chips">${[m.subject,m.grade,m.date].filter(Boolean).map(c=>`<span class="chip">${esc(c)}</span>`).join('')}</div>
-      <h1>${esc(m.title||'제목 없는 수업')}</h1><div class="unit">${esc(m.unit)}</div>${m.teacher?`<div class="by">${esc(m.teacher)}</div>`:''}</section>`;
+    const pos=[['right:6%;top:12%','0s'],['right:20%;top:46%','-1.2s'],['right:5%;bottom:14%','-2.5s'],['right:31%;top:8%','-3.7s']];
+    const fl=subjectEmojis(m.subject).map((e,k)=>`<span class="float" style="${pos[k][0]};animation-delay:${pos[k][1]}">${e}</span>`).join('');
+    const jumps=[['s-obj','🎯 학습 목표'],['s-content','📖 수업 내용'],['s-img','🖼️ 자료 사진'],['s-quiz','✅ 퀴즈']];
+    h+=`<section class="card hero">${fl}<div class="hero-in"><div class="chips">${[m.subject,m.grade,m.date].filter(Boolean).map(c=>`<span class="chip">${esc(c)}</span>`).join('')}</div>
+      <h1>${esc(m.title||'제목 없는 수업')}</h1><div class="unit">${esc(m.unit)}</div>${m.teacher?`<div class="by">${esc(m.teacher)}</div>`:''}</div>
+      <nav class="jump">${jumps.map(([id,t])=>`<a href="#${id}">${t}</a>`).join('')}</nav></section>`;
   }
 
   // 2. 학습목표 + 3. 수업 링크
-  h+=`<div class="grid2"><section class="card"><h2>🎯 학습 목표 ${T?`<span class="right"><button class="btn sm" data-act="addObj">+ 목표 추가</button></span>`:''}</h2>`;
+  h+=`<div class="grid2"><section class="card sec sec-obj" id="s-obj"><h2><span class="ico">🎯</span> 학습 목표 ${T?`<span class="right"><button class="btn sm" data-act="addObj">+ 목표 추가</button></span>`:''}</h2>`;
   if(T){
     h+= state.objectives.map((o,i)=>`<div class="row"><span class="n">${i+1}</span>${inp('objectives.'+i,o,'학습 목표를 입력하세요')}<button class="btn sm del" data-act="delObj" data-i="${i}" title="삭제">✕</button></div>`).join('') || '<div class="empty">학습 목표를 추가하세요.</div>';
   }else{
     const objs=state.objectives.filter(o=>o.trim());
-    h+= objs.length ? `<ol class="obj-list">${objs.map(o=>`<li>${esc(o)}</li>`).join('')}</ol>` : '<div class="empty">등록된 학습 목표가 없습니다.</div>';
+    h+= objs.length ? `<ol class="obj-list">${objs.map((o,k)=>`<li class="${objDone.has(k)?'done':''}" data-act="objDone" data-i="${k}" title="눌러서 달성 체크">${esc(o)}</li>`).join('')}</ol>
+      <div class="obj-meter" id="objMeter">${objMeterHTML(objs.length)}</div>` : '<div class="empty">등록된 학습 목표가 없습니다.</div>';
   }
-  h+=`</section><section class="card"><h2>🔗 수업 링크 ${T?`<span class="right"><button class="btn sm" data-act="addLink">+ 링크 추가</button></span>`:''}</h2>`;
+  h+=`</section><section class="card sec sec-link" id="s-link"><h2><span class="ico">🔗</span> 수업 링크 ${T?`<span class="right"><button class="btn sm" data-act="addLink">+ 링크 추가</button></span>`:''}</h2>`;
   if(T){
     h+= state.links.map((l,i)=>`<div class="row"><span class="n">${i+1}</span><input type="text" style="flex:1" data-path="links.${i}.title" value="${esc(l.title)}" placeholder="링크 이름"><input type="url" style="flex:1.6" data-path="links.${i}.url" value="${esc(l.url)}" placeholder="https://"><button class="btn sm del" data-act="delLink" data-i="${i}">✕</button></div>`).join('') || '<div class="empty">동영상, 활동 사이트, 설문 등 수업 링크를 추가하세요.</div>';
   }else{
@@ -481,12 +731,12 @@ function renderLesson(){
   h+=`</section></div>`;
 
   // 4. 수업 내용
-  h+=`<section class="card"><h2>📖 수업 내용</h2>`;
+  h+=`<section class="card sec sec-content" id="s-content"><h2><span class="ico">📖</span> 수업 내용 ${!T&&/\[[^\]]+\]/.test(state.content)?`<span class="right"><button class="btn sm" data-act="hideKw">${hideKw?'👀 핵심어 보이기':'🙈 핵심어 가리기'}</button></span>`:''}</h2>`;
   if(T){
     h+=`<p class="hint">핵심어를 <b>[대괄호]</b>로 감싸면 수업 화면에서 강조되고, 학습지에서는 자동으로 <b>빈칸 문제</b>가 됩니다. 줄 앞에 <b>#</b>을 쓰면 소제목, <b>-</b>를 쓰면 목록이 됩니다.</p>
       <textarea data-path="content" rows="12" placeholder="# 소제목&#10;수업 내용을 입력하세요. 예: 물이 수증기로 변하는 현상을 [증발]이라고 한다.">${esc(state.content)}</textarea>`;
   }else{
-    h+= state.content.trim() ? `<div class="content">${contentHTML(state.content,'view').html}</div>` : '<div class="empty">수업 내용이 없습니다.</div>';
+    h+= state.content.trim() ? `<div class="content ${hideKw?'hidekw':''}">${contentHTML(state.content,'view').html}</div>` : '<div class="empty">수업 내용이 없습니다.</div>';
   }
   h+=`</section>`;
 
@@ -494,10 +744,10 @@ function renderLesson(){
   const imgs=state.images;
   if(curImg>=imgs.length) curImg=Math.max(0,imgs.length-1);
   const cur=imgs[curImg];
-  h+=`<section class="card"><h2>🖼️ 자료 사진 <span class="count">링크를 클릭하면 사진이 화면에 표시됩니다</span>${T?`<span class="right"><button class="btn sm" data-act="addImg">+ 사진 추가</button></span>`:''}</h2>`;
+  h+=`<section class="card sec sec-img" id="s-img"><h2><span class="ico">🖼️</span> 자료 사진 <span class="count">링크를 클릭하면 사진이 화면에 표시됩니다</span>${T?`<span class="right"><button class="btn sm" data-act="addImg">+ 사진 추가</button></span>`:''}</h2>`;
   if(imgs.length){
     h+=`<div class="gallery"><div class="viewer" id="viewer">${viewerHTML(cur)}</div>
-      <div class="img-links">${imgs.map((im,i)=>`<button class="img-link ${i===curImg?'on':''}" data-act="showImg" data-i="${i}">🖼 ${esc(im.title||'사진 '+(i+1))}</button>`).join('')}</div></div>`;
+      <div class="img-links">${imgs.map((im,i)=>`<button class="img-link ${i===curImg?'on':''}" data-act="showImg" data-i="${i}">${safeUrl(im.url)?`<img src="${esc(safeUrl(im.url))}" alt="" onerror="this.style.visibility='hidden'">`:'🖼'}<span>${esc(im.title||'사진 '+(i+1))}</span></button>`).join('')}</div></div>`;
   }else if(!T){ h+='<div class="empty">등록된 사진 자료가 없습니다.</div>'; }
   if(T){
     h+=`<p class="hint" style="margin-top:14px">사진 주소(URL)를 붙여 넣거나 [📁 파일]로 내 컴퓨터의 사진을 올리세요. 올린 사진은 PPT·학습지에 그대로 들어갑니다. (인터넷 사진은 사이트 설정에 따라 PPT에는 링크로 대체될 수 있습니다.)</p>`;
@@ -515,31 +765,106 @@ function renderLesson(){
   }
   h+=`</section>`;
 
-  // 6. OX 퀴즈
-  h+=`<section class="card"><h2>⭕❌ OX 퀴즈 <span class="count">${state.quiz.length}문항</span>${T?`<span class="right"><button class="btn sm" data-act="addQuiz">+ 문항 추가</button></span>`:''}</h2>`;
+  // 6. 퀴즈 (유형: OX / 4지 선다 / 객관식 / 단답 / 서술)
+  h+=`<section class="card sec sec-quiz" id="s-quiz"><h2><span class="ico">✅</span> 퀴즈 <span class="count">${state.quiz.length}문항</span>${T?`<span class="right"><button class="btn sm" data-act="addQuiz">+ 문항 추가</button></span>`:''}</h2>`;
   if(T){
+    h+=`<p class="hint">문항마다 유형을 고르세요. 객관식은 번호 버튼을 눌러 정답을 지정하고, 단답형 정답이 여러 개면 <b>/</b> 로 구분합니다(예: 태양 에너지 / 태양에너지).</p>`;
     h+= state.quiz.map((q,i)=>`<div class="qe"><div class="qn">${i+1}</div>
-      <div class="flds"><textarea data-path="quiz.${i}.q" placeholder="문제를 입력하세요">${esc(q.q)}</textarea>
+      <div class="flds"><div class="qtop"><select data-qtype="${i}" title="문항 유형">${qtypeOptions(q.type)}</select></div>
+      <textarea data-path="quiz.${i}.q" placeholder="문제를 입력하세요">${esc(q.q)}</textarea>
+      ${answerEditor(q,i)}
       <input type="text" data-path="quiz.${i}.exp" value="${esc(q.exp)}" placeholder="해설 (선택)"></div>
-      <div class="side"><div class="ox"><button class="o ${q.a==='O'?'sel':''}" data-act="setAns" data-i="${i}" data-v="O" title="정답 O">O</button><button class="x ${q.a==='X'?'sel':''}" data-act="setAns" data-i="${i}" data-v="X" title="정답 X">X</button></div>
-      <div class="mv"><button class="btn sm" data-act="mvQuiz" data-i="${i}" data-d="-1" ${i===0?'disabled':''}>▲</button><button class="btn sm" data-act="mvQuiz" data-i="${i}" data-d="1" ${i===state.quiz.length-1?'disabled':''}>▼</button><button class="btn sm del" data-act="delQuiz" data-i="${i}">삭제</button></div></div></div>`).join('') || '<div class="empty">문항이 없습니다.</div>';
-    h+=`<div class="quiz-foot"><button class="btn" data-act="addQuiz">+ 문항 추가</button><span class="hint" style="margin:0">오른쪽 O / X 버튼으로 정답을 지정하세요.</span></div>`;
+      <div class="side"><div class="mv"><button class="btn sm" data-act="mvQuiz" data-i="${i}" data-d="-1" ${i===0?'disabled':''}>▲</button><button class="btn sm" data-act="mvQuiz" data-i="${i}" data-d="1" ${i===state.quiz.length-1?'disabled':''}>▼</button><button class="btn sm del" data-act="delQuiz" data-i="${i}">삭제</button></div></div></div>`).join('') || '<div class="empty">문항이 없습니다.</div>';
+    h+=`<div class="quiz-foot"><select id="newQType" title="추가할 문항 유형">${qtypeOptions(lastQType)}</select><button class="btn pri" data-act="addQuiz">+ 문항 추가</button></div>`;
   }else{
-    const qs=state.quiz.map((q,i)=>({...q,i})).filter(q=>q.q.trim());
+    const {qs,auto,done,right}=quizStats();
     if(!qs.length) h+='<div class="empty">등록된 퀴즈가 없습니다.</div>';
     else{
-      h+= qs.map((q,k)=>{
-        const a=quizAns[q.i], cls=quizChecked?(a===q.a?'right':'wrong'):'';
-        return `<div class="qi ${cls}"><div class="qn">${k+1}</div><div><div>${esc(q.q)}</div>${quizChecked?`<div class="exp"><b>${a===q.a?'정답!':'오답'}</b> · 정답 ${q.a}${q.exp?' — '+esc(q.exp):''}</div>`:''}</div>
-          <div class="ox"><button class="o ${a==='O'?'sel':''}" data-act="ans" data-i="${q.i}" data-v="O" ${quizChecked?'disabled':''}>O</button><button class="x ${a==='X'?'sel':''}" data-act="ans" data-i="${q.i}" data-v="X" ${quizChecked?'disabled':''}>X</button></div></div>`;
-      }).join('');
-      const done=qs.filter(q=>quizAns[q.i]).length, right=qs.filter(q=>quizAns[q.i]===q.a).length;
-      h+=`<div class="quiz-foot">${quizChecked?'':`<button class="btn pri" data-act="checkQuiz">채점하기</button>`}<button class="btn" data-act="resetQuiz">다시 풀기</button>
-        <span class="score">${quizChecked?`${qs.length}문항 중 ${right}개 정답 (${Math.round(right/qs.length*100)}점)`:`${done} / ${qs.length} 응답`}</span></div>`;
+      if(quizChecked){
+        const essays=qs.length-auto.length;
+        if(auto.length){
+          const sc=Math.round(right/auto.length*100);
+          const msg= sc===100?'🏆 만점! 완벽해요!': sc>=80?'🎉 훌륭해요!': sc>=60?'👍 잘했어요! 틀린 문제를 다시 볼까요?':'💪 괜찮아요, 다시 도전해 봐요!';
+          h+=`<div class="result"><div class="ring" style="--p:${sc}"><b>${sc}</b></div><div><div class="rt">${msg}</div><div>자동 채점 ${auto.length}문항 중 <b>${right}개</b> 정답${essays?` · 서술형 ${essays}문항은 모범 답안과 비교해 보세요`:''}</div></div></div>`;
+        }else{
+          h+=`<div class="result"><div><div class="rt">📝 답안을 제출했어요!</div><div>서술형은 아래 모범 답안과 비교해 보세요.</div></div></div>`;
+        }
+      }else{
+        h+=`<div class="qprog" id="qprog"><i style="width:${done/qs.length*100}%"></i><span>${qprogText(done,qs.length)}</span></div>`;
+      }
+      h+= qs.map((q,k)=>quizItemHTML(q,k)).join('');
+      h+=`<div class="quiz-foot">${quizChecked?'':`<button class="btn pri" data-act="checkQuiz">✅ 채점하기</button>`}<button class="btn" data-act="resetQuiz">🔄 다시 풀기</button></div>`;
     }
   }
   h+=`</section>`;
   return h;
+}
+
+/* 교사용: 유형별 정답 입력 칸 */
+function answerEditor(q,i){
+  if(q.type==='ox') return `<div class="ans-row"><span class="lb">정답</span><div class="ox"><button class="o ${q.a==='O'?'sel':''}" data-act="setAns" data-i="${i}" data-v="O">O</button><button class="x ${q.a==='X'?'sel':''}" data-act="setAns" data-i="${i}" data-v="X">X</button></div></div>`;
+  if(isChoice(q.type)){
+    const canDel=q.type==='mcq' && q.choices.length>2, canAdd=q.type==='mcq' && q.choices.length<6;
+    return `<div class="chs-edit">${q.choices.map((c,k)=>`<div class="ch-row"><button class="ch-pick ${+q.a===k?'sel':''}" data-act="setAns" data-i="${i}" data-v="${k}" title="정답으로 지정">${circ(k+1)}</button><input type="text" data-path="quiz.${i}.choices.${k}" value="${esc(c)}" placeholder="보기 ${k+1}">${canDel?`<button class="btn sm del" data-act="delChoice" data-i="${i}" data-k="${k}" title="보기 삭제">✕</button>`:''}</div>`).join('')}
+      <div class="ans-row"><span class="lb">초록색 번호 = 정답</span>${canAdd?`<button class="btn sm" data-act="addChoice" data-i="${i}">+ 보기 추가</button>`:''}</div></div>`;
+  }
+  if(q.type==='short') return `<input type="text" data-path="quiz.${i}.a" value="${esc(q.a)}" placeholder="정답 (여러 개 허용 시 / 로 구분)">`;
+  return `<textarea data-path="quiz.${i}.a" placeholder="모범 답안 / 채점 기준">${esc(q.a)}</textarea>`;
+}
+/* 학생용: 유형별 문항 */
+function quizItemHTML(q,k){
+  const a=quizAns[q.i], has=a!=null && String(a).trim()!=='', dis=quizChecked?'disabled':'';
+  const ok=isCorrect(q,a);
+  const cls=quizChecked ? (gradable(q)?(ok?'right':'wrong'):'essay') : (has?'answered':'');
+  let input='', side='';
+  if(q.type==='ox') side=`<div class="ox"><button class="o ${a==='O'?'sel':''}" data-act="ans" data-i="${q.i}" data-v="O" ${dis}>O</button><button class="x ${a==='X'?'sel':''}" data-act="ans" data-i="${q.i}" data-v="X" ${dis}>X</button></div>`;
+  if(isChoice(q.type)) input=`<div class="chs">${q.choices.map((c,j)=>{
+    const mark=quizChecked?(String(j)===q.a?'correct':(String(j)===a?'bad':'')):'';
+    return `<button class="ch ${String(j)===a?'sel':''} ${mark}" data-act="ans" data-i="${q.i}" data-v="${j}" ${dis}><b>${circ(j+1)}</b> ${esc(c)}</button>`;
+  }).join('')}</div>`;
+  if(q.type==='short') input=`<input type="text" class="sa" data-ans="${q.i}" value="${esc(a||'')}" placeholder="정답을 입력하세요" ${dis}>`;
+  if(q.type==='essay') input=`<textarea class="sa" data-ans="${q.i}" placeholder="생각을 자유롭게 써 보세요" ${dis}>${esc(a||'')}</textarea>`;
+  let fb='';
+  if(quizChecked) fb = gradable(q)
+    ? `<div class="exp"><b>${ok?'정답!':'오답'}</b> · 정답 ${esc(answerText(q))}${q.exp?' — '+esc(q.exp):''}</div>`
+    : `<div class="exp"><b style="color:#5f3dc4">📝 모범 답안</b> ${esc(q.a)}${q.exp?' — '+esc(q.exp):''}</div>`;
+  return `<div class="qi ${cls} t-${q.type}"><div class="qn">${k+1}</div><div><span class="qtag">${QSHORT[q.type]}</span><div>${esc(q.q)}</div>${input}${fb}</div>${side}</div>`;
+}
+function subjectEmojis(s){
+  const map=[[/과학|물리|화학|생명|지구/,['🔬','🧪','🌍','💧']],[/수학/,['📐','➗','🔢','📊']],[/국어|문학|독서|작문/,['📖','✍️','💬','📚']],
+    [/영어|외국어|일본|중국/,['🔤','🌎','💬','✈️']],[/사회|역사|지리|도덕|윤리|경제/,['🗺️','🏛️','🧭','📜']],[/미술/,['🎨','🖌️','🖼️','✨']],
+    [/음악/,['🎵','🎹','🎤','🎶']],[/체육/,['⚽','🏀','🏃','🏅']],[/정보|코딩|기술|AI|인공지능/i,['💻','🤖','⚙️','💡']]];
+  for(const [re,e] of map) if(re.test(s||'')) return e;
+  return ['📚','✏️','💡','⭐'];
+}
+function objMeterHTML(n){
+  const d=[...objDone].filter(k=>k<n).length;
+  return `<span>${d===n?'🌟 모든 목표 달성!':'목표를 눌러 달성 체크'}</span><span class="b"><i style="width:${n?d/n*100:0}%"></i></span><b>${d} / ${n}</b>`;
+}
+function quizStats(){
+  const qs=state.quiz.map((q,i)=>({...q,i})).filter(q=>q.q.trim());
+  const auto=qs.filter(gradable);
+  return {qs, auto, done:qs.filter(q=>String(quizAns[q.i]??'').trim()).length, right:auto.filter(q=>isCorrect(q,quizAns[q.i])).length};
+}
+function qprogText(d,n){ return d===n ? '🎯 다 풀었어요! 채점해 볼까요?' : `${d} / ${n} 문제 풀었어요`; }
+function updateQuizProg(){
+  const p=$('#qprog'); if(!p) return;
+  const {qs,done}=quizStats();
+  p.querySelector('i').style.width=(done/qs.length*100)+'%';
+  p.querySelector('span').textContent=qprogText(done,qs.length);
+}
+function confetti(){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const c=document.createElement('canvas'); c.id='confetti'; document.body.appendChild(c);
+  const g=c.getContext('2d'), W=c.width=innerWidth, H=c.height=innerHeight;
+  const cols=['#ff6b6b','#ffd43b','#51cf66','#339af0','#845ef7','#f06595'];
+  const ps=Array.from({length:170},()=>({x:W/2+(Math.random()-.5)*240,y:H*.4,vx:(Math.random()-.5)*18,vy:-Math.random()*17-5,s:Math.random()*8+6,r:Math.random()*6,vr:(Math.random()-.5)*.3,c:cols[Math.random()*cols.length|0]}));
+  let t=0;
+  (function f(){
+    g.clearRect(0,0,W,H);
+    ps.forEach(p=>{ p.vy+=.38; p.vx*=.99; p.x+=p.vx; p.y+=p.vy; p.r+=p.vr; g.save(); g.translate(p.x,p.y); g.rotate(p.r); g.fillStyle=p.c; g.fillRect(-p.s/2,-p.s/4,p.s,p.s/2); g.restore(); });
+    if(++t<170) requestAnimationFrame(f); else c.remove();
+  })();
 }
 function viewerHTML(im){
   if(!im) return '';
@@ -555,9 +880,9 @@ function viewerHTML(im){
 function renderWs(){
   const w=state.ws;
   const opt=(k,l)=>`<label><input type="checkbox" data-ws="${k}" ${w[k]?'checked':''}> ${l}</label>`;
-  return `<section class="card ws-tools"><div class="opts">${opt('obj','학습 목표')}${opt('blank','핵심 내용 빈칸')}${opt('ox','OX 퀴즈')}${opt('img','자료 관찰')}${opt('reflect','배움 정리')}${opt('answer','정답지 포함')}</div>
+  return `<section class="card ws-tools"><div class="opts">${opt('obj','학습 목표')}${opt('blank','핵심 내용 빈칸')}${opt('ox','퀴즈')}${opt('img','자료 관찰')}${opt('reflect','배움 정리')}${opt('answer','정답지 포함')}</div>
     <button class="btn pri" data-act="printWs">🖨 학습지 출력</button></section>
-    <p class="hint">수업 화면에 입력한 학습 목표 · 수업 내용([핵심어]) · OX 퀴즈 · 자료 사진으로 학습지가 자동 구성됩니다. 내용을 바꾸면 학습지도 바로 바뀝니다.</p>
+    <p class="hint">수업 화면에 입력한 학습 목표 · 수업 내용([핵심어]) · 퀴즈 · 자료 사진으로 학습지가 자동 구성됩니다. 내용을 바꾸면 학습지도 바로 바뀝니다.</p>
     <div class="ws-preview">${worksheetHTML()}</div>`;
 }
 function worksheetHTML(){
@@ -573,8 +898,8 @@ function worksheetHTML(){
     <table class="ws-info"><tr><td class="h">날짜</td><td>${esc(m.date)}</td><td class="h">학번</td><td></td><td class="h">이름</td><td style="width:22%"></td></tr></table>`;
   if(w.obj && objs.length) p+=sec('학습 목표', `<ol>${objs.map(o=>`<li>${esc(o)}</li>`).join('')}</ol>`);
   if(w.blank && state.content.trim()) p+=sec('핵심 내용 정리'+(ct.answers.length?' <span style="font-weight:400;font-size:9.5pt">— 빈칸에 알맞은 말을 쓰세요.</span>':''), ct.html);
-  if(w.ox && qs.length) p+=sec('OX 퀴즈 <span style="font-weight:400;font-size:9.5pt">— 맞으면 O, 틀리면 X에 ○표 하세요.</span>',
-    `<table class="ws-ox"><tr><th style="width:7%">번호</th><th>문제</th><th>O / X</th></tr>${qs.map((q,i)=>`<tr><td class="c">${i+1}</td><td>${esc(q.q)}</td><td class="c">O &nbsp;/&nbsp; X</td></tr>`).join('')}</table>`);
+  if(w.ox && qs.length) p+=sec('퀴즈 <span style="font-weight:400;font-size:9.5pt">— OX형은 ○표, 선다형은 번호에 ○표, 단답·서술형은 답을 쓰세요.</span>',
+    `<div class="ws-q">${qs.map(wsQuestion).join('')}</div>`);
   if(w.img && imgs.length) p+=sec('자료 관찰 <span style="font-weight:400;font-size:9.5pt">— 자료를 보고 알게 된 점을 쓰세요.</span>',
     `<div class="ws-imgs">${imgs.map((im,i)=>`<div class="ws-img"><img src="${esc(safeUrl(im.url))}" alt=""><div class="c">자료 ${i+1}. ${esc(im.title)}</div><div class="lines"><div></div><div></div></div></div>`).join('')}</div>`);
   if(w.reflect) p+=sec('배움 정리', `<h4>· 오늘 배운 내용을 한 문장으로 정리해 봅시다.</h4><div class="lines"><div></div><div></div></div>
@@ -586,10 +911,18 @@ function worksheetHTML(){
     r=0;
     p+=`<div class="ws-page ws-ans"><div class="ws-top"><div class="t">정답 및 해설</div><div class="m">${esc(m.title)}</div></div>`;
     if(w.blank && ct.answers.length) p+=sec('핵심 내용 빈칸', `<div class="ans-blank">${ct.answers.map((a,i)=>`<div>${circ(i+1)} ${esc(a)}</div>`).join('')}</div>`);
-    if(w.ox && qs.length) p+=sec('OX 퀴즈', `<table class="ws-ox"><tr><th style="width:7%">번호</th><th style="width:9%">정답</th><th>해설</th></tr>${qs.map((q,i)=>`<tr><td class="c">${i+1}</td><td class="c"><b style="color:${q.a==='O'?'var(--o)':'var(--x)'}">${q.a}</b></td><td>${esc(q.exp||'')}</td></tr>`).join('')}</table>`);
+    if(w.ox && qs.length) p+=sec('퀴즈', `<table class="ws-ox"><tr><th style="width:7%">번호</th><th style="width:11%">유형</th><th style="width:34%">정답 (서술형은 모범 답안)</th><th>해설</th></tr>${qs.map((q,i)=>`<tr><td class="c">${i+1}</td><td class="c">${QSHORT[q.type]}</td><td><b style="${q.type==='ox'?`color:${q.a==='O'?'var(--o)':'var(--x)'}`:''}">${esc(answerText(q))}</b></td><td>${esc(q.exp||'')}</td></tr>`).join('')}</table>`);
     p+=`</div>`;
   }
   return p;
+}
+function wsQuestion(q,i){
+  const head=`<div class="wq-h"><b>${i+1}.</b><span>${esc(q.q)} <span class="wq-t">[${QSHORT[q.type]}]</span></span>${q.type==='ox'?'<span class="wq-ox">( O / X )</span>':''}</div>`;
+  let body='';
+  if(isChoice(q.type)) body=`<div class="wq-ch ${q.choices.some(c=>c.length>16)?'one':''}">${q.choices.map((c,k)=>`<span>${circ(k+1)} ${esc(c)}</span>`).join('')}</div>`;
+  if(q.type==='short') body=`<div class="wq-short">답 : <span></span></div>`;
+  if(q.type==='essay') body=`<div class="lines wq-ess"><div></div><div></div><div></div><div></div></div>`;
+  return `<div class="wq">${head}${body}</div>`;
 }
 
 /* =========================================================
@@ -605,21 +938,86 @@ function buildSlides(){
   state.images.filter(im=>safeUrl(im.url)).forEach(im=>S.push({type:'image', title:im.title||'자료 사진', url:safeUrl(im.url)}));
   const ls=state.links.filter(l=>safeUrl(l.url));
   if(ls.length) S.push({type:'links', title:'수업 링크', items:ls});
-  qs.forEach((q,i)=>S.push({type:'quiz', title:`OX 퀴즈 ${i+1} / ${qs.length}`, q}));
-  if(qs.length) S.push({type:'answers', title:'OX 퀴즈 정답', items:qs});
+  qs.forEach((q,i)=>S.push({type:'quiz', title:`퀴즈 ${i+1} / ${qs.length} · ${QSHORT[q.type]}`, q}));
+  const per2=8, ap=Math.ceil(qs.length/per2);
+  for(let k=0;k<ap;k++) S.push({type:'answers', title:'퀴즈 정답'+(ap>1?` (${k+1}/${ap})`:''), items:qs.slice(k*per2,(k+1)*per2), start:k*per2});
   return S;
 }
-function slideHTML(s, i, n, reveal){
-  const m=state.meta;
-  if(s.type==='title') return `<div class="slide title"><div class="tb"><div class="c1">${esc(metaLine())}</div><div class="c2">${esc(m.title||'수업 제목')}</div><div class="c3">${esc(m.unit)}</div></div><div class="c4">${esc([m.date,m.teacher].filter(Boolean).join('   '))}</div></div>`;
+
+/* ---------- 슬라이드 디자인 (기본 10종 + 내 템플릿) ---------- */
+const SLIDE_THEMES=[
+  {id:'classic',name:'블루 클래식',style:'bar', pri:'2B5CE6',bg:'FFFFFF',ink:'1D2433',hdr:'FFFFFF',tbg:'2B5CE6',tink:'FFFFFF',tsub:'DCE5FF',kw:'D9480F',muted:'8A93A6',box:'EAF0FF'},
+  {id:'violet', name:'보라 드림',  style:'bar', pri:'7048E8',bg:'FFFFFF',ink:'212529',hdr:'FFFFFF',tbg:'5F3DC4',tink:'FFFFFF',tsub:'D0BFFF',kw:'E64980',muted:'868E96',box:'F3F0FF'},
+  {id:'forest', name:'초록 숲',    style:'side',pri:'2F9E44',bg:'F4FBF5',ink:'1E3A26',hdr:'FFFFFF',tbg:'2B8A3E',tink:'FFFFFF',tsub:'B2F2BB',kw:'E67700',muted:'7C9A84',box:'E6F7E9'},
+  {id:'sunset', name:'노을 오렌지',style:'bar', pri:'F76707',bg:'FFF9F2',ink:'3D2A1A',hdr:'FFFFFF',tbg:'E8590C',tink:'FFFFFF',tsub:'FFD8A8',kw:'C2255C',muted:'A1887F',box:'FFF0E0'},
+  {id:'blossom',name:'벚꽃 핑크',  style:'line',pri:'E64980',bg:'FFF5F8',ink:'4A1F33',hdr:'FFFFFF',tbg:'F783AC',tink:'FFFFFF',tsub:'FFDEEB',kw:'7048E8',muted:'B48A9B',box:'FFE3EC'},
+  {id:'board',  name:'칠판 다크',  style:'line',pri:'63E6BE',bg:'1F2A2E',ink:'F1F3F5',hdr:'1F2A2E',tbg:'162024',tink:'FFFFFF',tsub:'96F2D7',kw:'FFD43B',muted:'7F9399',box:'2A383D'},
+  {id:'night',  name:'밤하늘 네이비',style:'side',pri:'FFD43B',bg:'1B2340',ink:'EDF2FF',hdr:'1B2340',tbg:'101631',tink:'FFFFFF',tsub:'FFE066',kw:'FFA94D',muted:'8C96B8',box:'262F52'},
+  {id:'mono',   name:'미니멀 흑백',style:'line',pri:'212529',bg:'FFFFFF',ink:'212529',hdr:'FFFFFF',tbg:'212529',tink:'FFFFFF',tsub:'ADB5BD',kw:'E03131',muted:'868E96',box:'F1F3F5'},
+  {id:'ocean',  name:'바다 청록',  style:'side',pri:'1098AD',bg:'F0FBFC',ink:'0B3B44',hdr:'FFFFFF',tbg:'0C8599',tink:'FFFFFF',tsub:'99E9F2',kw:'F76707',muted:'6F9AA2',box:'E3FAFC'},
+  {id:'lemon',  name:'레몬 노트',  style:'bar', pri:'FAB005',bg:'FFFBEA',ink:'343A40',hdr:'343A40',tbg:'FAB005',tink:'343A40',tsub:'5C4400',kw:'D9480F',muted:'A0927A',box:'FFF3BF'}
+];
+const HSTYLES=[['bar','색 띠 제목'],['line','밑줄 제목'],['side','옆 막대 제목']];
+function hexMix(a,b,t){
+  const ch=h=>{ const n=parseInt(h,16); return [(n>>16)&255,(n>>8)&255,n&255]; };
+  const A=ch(a), B=ch(b);
+  return A.map((v,k)=>Math.round(v+(B[k]-v)*t).toString(16).padStart(2,'0')).join('').toUpperCase();
+}
+function contrastInk(h){ const n=parseInt(h,16); return (.299*((n>>16)&255)+.587*((n>>8)&255)+.114*(n&255))/255>.62 ? '212529' : 'FFFFFF'; }
+function deriveTheme(c){ return {...c, custom:true, hdr:contrastInk(c.pri), tsub:hexMix(c.tink,c.tbg,.3), muted:hexMix(c.ink,c.bg,.5), box:hexMix(c.pri,c.bg,.88)}; }
+function newCustomTheme(){ return {id:'my'+Date.now().toString(36), name:'내 템플릿', style:'bar', pri:'0CA678', bg:'FFFFFF', ink:'212529', kw:'E8590C', tbg:'0CA678', tink:'FFFFFF', bgImg:''}; }
+function allThemes(){ return SLIDE_THEMES.concat(state.customThemes.map(deriveTheme)); }
+function curTheme(){ const a=allThemes(); return a.find(t=>t.id===state.slideTheme) || a[0]; }
+function themeVars(T){
+  return `--s-pri:#${T.pri};--s-bg:#${T.bg};--s-ink:#${T.ink};--s-hdr:#${T.hdr};--s-tbg:#${T.tbg};--s-tink:#${T.tink};--s-tsub:#${T.tsub};--s-kw:#${T.kw};--s-muted:#${T.muted};--s-box:#${T.box}`
+    + (T.bgImg ? `;background-image:url('${T.bgImg}');background-size:cover;background-position:center` : '');
+}
+
+function slideHTML(s, i, n, reveal, T){
+  T = T || curTheme();
+  const m=state.meta, st=themeVars(T);
+  if(s.type==='title') return `<div class="slide title" style="${st}"><span class="tl"></span><div class="tb"><div class="c1">${esc(metaLine())}</div><div class="c2">${esc(m.title||'수업 제목')}</div><div class="c3">${esc(m.unit)}</div></div><div class="c4">${esc([m.date,m.teacher].filter(Boolean).join('   '))}</div></div>`;
   let body='';
   if(s.type==='list') body=`<div class="sb"><ol>${s.items.map(t=>`<li>${esc(t)}</li>`).join('')}</ol></div>`;
   if(s.type==='content') body=`<div class="sb">${contentHTML(s.lines,'slide').html}</div>`;
   if(s.type==='image') body=`<div class="sb" style="top:16%;bottom:8%"><div class="simg"><img src="${esc(s.url)}" alt=""></div></div>`;
   if(s.type==='links') body=`<div class="sb"><ul>${s.items.map(l=>`<li><span class="lnk">${esc(l.title||l.url)}<small>${esc(l.url)}</small></span></li>`).join('')}</ul></div>`;
-  if(s.type==='quiz') body=`<div class="q">${esc(s.q.q)}</div><div class="qb"><span class="o ${s.q.a==='O'?'is':''}">O</span><span class="x ${s.q.a==='X'?'is':''}">X</span></div><div class="ans">정답: <b>${s.q.a}</b>${s.q.exp?' — '+esc(s.q.exp):''}</div>`;
-  if(s.type==='answers') body=`<div class="sb" style="top:17%;bottom:8%"><table><tr><th style="width:7%">번호</th><th>문제</th><th style="width:8%">정답</th></tr>${s.items.map((q,k)=>`<tr><td style="text-align:center">${k+1}</td><td>${esc(q.q)}</td><td style="text-align:center;font-weight:800;color:${q.a==='O'?'var(--o)':'var(--x)'}">${q.a}</td></tr>`).join('')}</table></div>`;
-  return `<div class="slide ${reveal?'reveal':''}"><div class="sh">${esc(s.title)}</div>${body}<div class="sf"><span>${esc([m.subject,m.title].filter(Boolean).join(' | '))}</span><span>${i+1} / ${n}</span></div></div>`;
+  if(s.type==='quiz'){
+    const q=s.q, ans=`<div class="ans">${q.type==='essay'?'모범 답안':'정답'}: <b>${esc(answerText(q))}</b>${q.exp?' — '+esc(q.exp):''}</div>`;
+    if(q.type==='ox') body=`<div class="q">${esc(q.q)}</div><div class="qb"><span class="o ${q.a==='O'?'is':''}">O</span><span class="x ${q.a==='X'?'is':''}">X</span></div>`+ans;
+    else if(isChoice(q.type)) body=`<div class="q up">${esc(q.q)}</div><div class="sch">${q.choices.map((c,k)=>`<div class="${String(k)===q.a?'is':''}"><b>${circ(k+1)}</b> ${esc(c)}</div>`).join('')}</div>`+ans;
+    else if(q.type==='short') body=`<div class="q">${esc(q.q)}</div><div class="sbox">답 :</div>`+ans;
+    else body=`<div class="q up">${esc(q.q)}</div><div class="sess"></div>`+ans;
+  }
+  if(s.type==='answers') body=`<div class="sb" style="top:17%;bottom:8%"><table><tr><th style="width:6%">번호</th><th style="width:11%">유형</th><th>문제</th><th style="width:26%">정답</th></tr>${s.items.map((q,k)=>`<tr><td style="text-align:center">${(s.start||0)+k+1}</td><td style="text-align:center">${QSHORT[q.type]}</td><td>${esc(q.q)}</td><td style="font-weight:700;${q.type==='ox'?`text-align:center;color:${q.a==='O'?'var(--o)':'var(--x)'}`:''}">${esc(answerText(q))}</td></tr>`).join('')}</table></div>`;
+  return `<div class="slide hs-${T.style} ${reveal?'reveal':''}" style="${st}"><div class="sh">${esc(s.title)}</div>${body}<div class="sf"><span>${esc([m.subject,m.title].filter(Boolean).join(' | '))}</span><span>${i+1} / ${n}</span></div></div>`;
+}
+const DEMO_SLIDE={type:'list', title:'학습 목표', items:['핵심 개념을 설명할 수 있다.','배운 내용을 생활에 적용한다.']};
+function themeCard(T){
+  const on=T.id===curTheme().id;
+  return `<div style="position:relative"><button class="${on?'on':''}" data-act="pickTheme" data-v="${T.id}" style="width:100%">${slideHTML(DEMO_SLIDE,1,9,false,T)}${on?'✔ ':''}${esc(T.name)}</button>
+    ${T.custom&&teacher?`<span style="position:absolute;top:4px;right:4px;display:flex;gap:3px"><button class="btn sm" data-act="editTheme" data-v="${T.id}" title="수정">✎</button><button class="btn sm del" data-act="delTheme" data-v="${T.id}" title="삭제">✕</button></span>`:''}</div>`;
+}
+function themeEditorHTML(){
+  const e=themeEdit, col=(k,l)=>`<div><label class="f">${l}</label><input type="color" data-te="${k}" value="#${e[k]}" style="width:100%;height:36px;padding:2px;border:1px solid var(--line);border-radius:8px;background:#fff"></div>`;
+  return `<section class="card sec sec-img"><h2><span class="ico">🎨</span> ${state.customThemes.some(c=>c.id===e.id)?'내 템플릿 수정':'내 템플릿 추가'}</h2>
+    <div class="grid2"><div>
+      <label class="f">템플릿 이름</label><input type="text" data-te="name" value="${esc(e.name)}" placeholder="예: 우리 반 템플릿">
+      <div class="meta-grid" style="margin-top:10px">
+        ${col('pri','강조색 (제목)')}${col('bg','슬라이드 배경색')}${col('ink','글자색')}
+        ${col('kw','핵심어 색')}${col('tbg','표지 배경색')}${col('tink','표지 글자색')}
+      </div>
+      <label class="f" style="margin-top:10px">제목 스타일</label>
+      <div class="row">${HSTYLES.map(([v,l])=>`<button class="btn sm ${e.style===v?'pri':''}" data-act="teStyle" data-v="${v}">${l}</button>`).join('')}</div>
+      <label class="f" style="margin-top:6px">배경 이미지 (선택 · 모든 슬라이드에 깔림, 16:9 권장)</label>
+      <div class="row"><label class="btn sm">📁 이미지 선택<input type="file" accept="image/*" data-tefile hidden></label>${e.bgImg?`<button class="btn sm del" data-act="teNoImg">이미지 빼기</button>`:''}</div>
+    </div>
+    <div id="tePreview">${themePreviewHTML()}</div></div>
+    <div class="quiz-foot"><button class="btn pri" data-act="teSave">💾 템플릿 저장</button><button class="btn" data-act="teCancel">취소</button></div></section>`;
+}
+function themePreviewHTML(){
+  const T=deriveTheme(themeEdit);
+  return `<label class="f">미리보기</label><div style="display:grid;gap:8px">${slideHTML({type:'title'},0,3,false,T)}${slideHTML({type:'content',title:'수업 내용',lines:parseContent('# 소제목\n본문 글자와 [핵심어] 예시입니다.\n- 목록 항목')},1,3,false,T)}</div>`;
 }
 function renderSlides(){
   const S=buildSlides();
@@ -627,6 +1025,10 @@ function renderSlides(){
     <button class="btn" data-act="present" data-i="0">▶ 발표 모드</button>
     <button class="btn" data-act="printSlides">🖨 슬라이드 출력</button>
     <button class="btn pri" data-act="exportPpt">📥 파워포인트(.pptx) 저장</button></section>
+    <section class="card sec sec-quiz"><h2><span class="ico">🎨</span> 슬라이드 디자인 <span class="count">선택한 디자인이 미리보기 · 발표 · 출력 · PPT 파일에 적용됩니다</span>${teacher?`<span class="right"><button class="btn sm pri" data-act="addTheme">+ 내 템플릿 추가</button></span>`:''}</h2>
+      <div class="theme-pick">${allThemes().map(themeCard).join('')}</div>
+      ${!teacher?'<p class="hint" style="margin:10px 0 0">교사 모드에서 나만의 템플릿(색 · 제목 스타일 · 배경 이미지)을 추가할 수 있습니다.</p>':''}</section>
+    ${themeEdit&&teacher?themeEditorHTML():''}
     <div class="slide-grid">${S.map((s,i)=>`<div class="slide-wrap" data-act="present" data-i="${i}">${slideHTML(s,i,S.length,teacher)}<div class="no">${i+1}. ${esc(s.type==='title'?'표지':s.title)}${s.type==='quiz'?' · 정답은 슬라이드 노트에 저장':''}</div></div>`).join('')}</div>`;
 }
 
@@ -680,20 +1082,29 @@ async function exportPpt(){
   toast('파워포인트 파일을 만드는 중입니다…');
   const m=state.meta, S=buildSlides(), F='맑은 고딕', W=13.333;
   const P=new PptxGenJS(); P.layout='LAYOUT_WIDE'; P.title=m.title||'수업 자료'; P.author=m.teacher||'';
-  const PRI='2B5CE6', INK='1D2433', KW='D9480F', GRAY='8A93A6';
+  const T=curTheme(), PRI=T.pri, INK=T.ink, KW=T.kw, GRAY=T.muted;
   let fails=0;
   for(let i=0;i<S.length;i++){
     const s=S[i], sl=P.addSlide();
+    sl.background = T.bgImg ? {data:T.bgImg} : {color: s.type==='title' ? T.tbg : T.bg};
     if(s.type==='title'){
-      sl.background={color:PRI};
-      sl.addText(metaLine(),{x:.8,y:1.5,w:11.7,h:.5,fontSize:18,color:'DCE5FF',fontFace:F});
-      sl.addText(m.title||'수업 제목',{x:.8,y:2.05,w:11.7,h:1.7,fontSize:44,bold:true,color:'FFFFFF',fontFace:F,valign:'middle'});
-      sl.addText(m.unit||'',{x:.8,y:3.8,w:11.7,h:.6,fontSize:22,color:'FFFFFF',fontFace:F});
-      sl.addText([m.date,m.teacher].filter(Boolean).join('   '),{x:.8,y:6.4,w:11.7,h:.4,fontSize:14,color:'DCE5FF',fontFace:F});
+      sl.addShape('rect',{x:.8,y:1.22,w:1.2,h:.08,fill:{color:T.tsub},line:{color:T.tsub}});
+      sl.addText(metaLine(),{x:.8,y:1.5,w:11.7,h:.5,fontSize:18,color:T.tsub,fontFace:F});
+      sl.addText(m.title||'수업 제목',{x:.8,y:2.05,w:11.7,h:1.7,fontSize:44,bold:true,color:T.tink,fontFace:F,valign:'middle'});
+      sl.addText(m.unit||'',{x:.8,y:3.8,w:11.7,h:.6,fontSize:22,color:T.tink,fontFace:F});
+      sl.addText([m.date,m.teacher].filter(Boolean).join('   '),{x:.8,y:6.4,w:11.7,h:.4,fontSize:14,color:T.tsub,fontFace:F});
       continue;
     }
-    sl.addShape('rect',{x:0,y:0,w:W,h:1.0,fill:{color:PRI},line:{color:PRI}});
-    sl.addText(s.title,{x:.6,y:0,w:W-1.2,h:1.0,fontSize:28,bold:true,color:'FFFFFF',fontFace:F,valign:'middle'});
+    if(T.style==='bar'){
+      sl.addShape('rect',{x:0,y:0,w:W,h:1.0,fill:{color:PRI},line:{color:PRI}});
+      sl.addText(s.title,{x:.6,y:0,w:W-1.2,h:1.0,fontSize:28,bold:true,color:T.hdr,fontFace:F,valign:'middle'});
+    }else if(T.style==='line'){
+      sl.addText(s.title,{x:.6,y:.25,w:W-1.2,h:.8,fontSize:28,bold:true,color:PRI,fontFace:F,valign:'middle',margin:0});
+      sl.addShape('line',{x:.6,y:1.05,w:W-1.2,h:0,line:{color:PRI,width:3}});
+    }else{
+      sl.addShape('rect',{x:0,y:.25,w:.18,h:.8,fill:{color:PRI},line:{color:PRI}});
+      sl.addText(s.title,{x:.6,y:.25,w:W-1.2,h:.8,fontSize:28,bold:true,color:INK,fontFace:F,valign:'middle'});
+    }
     sl.addText([m.subject,m.title].filter(Boolean).join(' | '),{x:.6,y:7.0,w:9,h:.35,fontSize:11,color:GRAY,fontFace:F});
     sl.addText(`${i+1} / ${S.length}`,{x:W-2.6,y:7.0,w:2,h:.35,fontSize:11,color:GRAY,fontFace:F,align:'right'});
     const box={x:.8,y:1.4,w:W-1.6,h:5.4};
@@ -726,18 +1137,33 @@ async function exportPpt(){
       sl.addText(runs,{...box,fontFace:F,valign:'top',paraSpaceAfter:6});
     }
     if(s.type==='quiz'){
-      sl.addText(s.q.q,{x:1,y:1.5,w:W-2,h:2.4,fontSize:32,bold:true,fontFace:F,color:INK,align:'center',valign:'middle'});
-      sl.addShape('ellipse',{x:3.6,y:4.3,w:1.9,h:1.9,fill:{color:'1F9D55'},line:{color:'1F9D55'}});
-      sl.addText('O',{x:3.6,y:4.3,w:1.9,h:1.9,fontSize:66,bold:true,color:'FFFFFF',align:'center',valign:'middle',fontFace:F});
-      sl.addShape('ellipse',{x:7.8,y:4.3,w:1.9,h:1.9,fill:{color:'E03E3E'},line:{color:'E03E3E'}});
-      sl.addText('X',{x:7.8,y:4.3,w:1.9,h:1.9,fontSize:66,bold:true,color:'FFFFFF',align:'center',valign:'middle',fontFace:F});
-      sl.addNotes(`정답: ${s.q.a}${s.q.exp?'\n해설: '+s.q.exp:''}`);
+      const q=s.q, tall=q.type==='ox'||q.type==='short';
+      sl.addText(q.q,{x:1,y:tall?1.5:1.25,w:W-2,h:tall?2.4:1.9,fontSize:tall?32:28,bold:true,fontFace:F,color:INK,align:'center',valign:'middle'});
+      if(q.type==='ox'){
+        sl.addShape('ellipse',{x:3.6,y:4.3,w:1.9,h:1.9,fill:{color:'1F9D55'},line:{color:'1F9D55'}});
+        sl.addText('O',{x:3.6,y:4.3,w:1.9,h:1.9,fontSize:66,bold:true,color:'FFFFFF',align:'center',valign:'middle',fontFace:F});
+        sl.addShape('ellipse',{x:7.8,y:4.3,w:1.9,h:1.9,fill:{color:'E03E3E'},line:{color:'E03E3E'}});
+        sl.addText('X',{x:7.8,y:4.3,w:1.9,h:1.9,fontSize:66,bold:true,color:'FFFFFF',align:'center',valign:'middle',fontFace:F});
+      }else if(isChoice(q.type)){
+        q.choices.forEach((c,k)=>{
+          const x=.9+(k%2)*5.85, y=3.35+Math.floor(k/2)*1.1;
+          sl.addShape('roundRect',{x,y,w:5.6,h:.92,rectRadius:.12,fill:{color:T.box},line:{color:GRAY,width:1}});
+          sl.addText([{text:circ(k+1)+'  ',options:{color:PRI,bold:true}},{text:c,options:{color:INK}}],{x:x+.15,y,w:5.3,h:.92,fontSize:20,fontFace:F,valign:'middle'});
+        });
+      }else if(q.type==='short'){
+        sl.addText('답 :',{x:3.2,y:4.6,w:1,h:.6,fontSize:22,color:INK,fontFace:F,valign:'bottom'});
+        sl.addShape('line',{x:3.2,y:5.25,w:6.9,h:0,line:{color:INK,width:2}});
+      }else{
+        sl.addShape('roundRect',{x:1.2,y:3.35,w:W-2.4,h:3.3,rectRadius:.15,fill:{color:T.bg},line:{color:GRAY,width:1.5,dashType:'dash'}});
+      }
+      sl.addNotes(`${q.type==='essay'?'모범 답안':'정답'}: ${answerText(q)}${q.exp?'\n해설: '+q.exp:''}`);
     }
     if(s.type==='answers'){
-      const hd=t=>({text:t,options:{bold:true,fill:{color:'EAF0FF'},align:'center'}});
-      const rows=[[hd('번호'),hd('문제'),hd('정답'),hd('해설')]].concat(s.items.map((q,k)=>[
-        {text:String(k+1),options:{align:'center'}},q.q,{text:q.a,options:{align:'center',bold:true,color:q.a==='O'?'1F9D55':'E03E3E'}},q.exp||'']));
-      sl.addTable(rows,{x:.6,y:1.25,w:W-1.2,colW:[.8,6.6,.9,3.833],fontSize:12,fontFace:F,color:INK,border:{type:'solid',pt:.75,color:'CCD3E0'},valign:'middle',autoPage:true,autoPageRepeatHeader:true,newSlideStartY:1.25});
+      const hd=t=>({text:t,options:{bold:true,fill:{color:T.box},align:'center'}});
+      const rows=[[hd('번호'),hd('유형'),hd('문제'),hd('정답'),hd('해설')]].concat(s.items.map((q,k)=>[
+        {text:String((s.start||0)+k+1),options:{align:'center'}},{text:QSHORT[q.type],options:{align:'center'}},q.q,
+        {text:answerText(q),options:{bold:true,align:q.type==='ox'?'center':'left',color:q.type==='ox'?(q.a==='O'?'1F9D55':'E03E3E'):INK}},q.exp||'']));
+      sl.addTable(rows,{x:.6,y:1.25,w:W-1.2,colW:[.7,1.2,5.2,2.7,2.333],fontSize:12,fontFace:F,color:INK,border:{type:'solid',pt:.75,color:GRAY},valign:'middle'});
     }
   }
   try{
@@ -770,7 +1196,10 @@ function fileToData(file){
 /* =========================================================
    렌더 & 이벤트
    ========================================================= */
-function render(){
+function render(anim){
+  const view=$('#view');
+  view.classList.remove('anim');
+  if(anim){ void view.offsetWidth; view.classList.add('anim'); }
   document.body.classList.toggle('teacher',teacher);
   $('#modeBtn').textContent = teacher ? '✔ 편집 완료' : '✏️ 교사 모드';
   $('#modeBtn').className = 'btn ' + (teacher ? 'pri' : 'warn');
@@ -784,9 +1213,9 @@ document.addEventListener('click', e=>{
   const act=el.dataset.act, i=+el.dataset.i, v=el.dataset.v, d=+el.dataset.d;
   const edit=fn=>{ fn(); save(); render(); };
   switch(act){
-    case 'tab': tab=v; render(); window.scrollTo(0,0); break;
+    case 'tab': tab=v; render(true); window.scrollTo({top:0,behavior:'instant'}); break;
     case 'mode':
-      if(teacher){ teacher=false; render(); toast('수정을 마쳤습니다. 학생 화면으로 전환합니다.'); }
+      if(teacher){ teacher=false; render(true); toast('수정을 마쳤습니다. 학생 화면으로 전환합니다.'); }
       else openPwLogin();
       break;
     case 'chpw': openPwChange(); break;
@@ -797,20 +1226,77 @@ document.addEventListener('click', e=>{
     case 'addImg': edit(()=>{ state.images.push({title:'',url:''}); curImg=state.images.length-1; }); break;
     case 'delImg': edit(()=>state.images.splice(i,1)); break;
     case 'mvImg': edit(()=>{ move(state.images,i,d); curImg=i+d; }); break;
-    case 'showImg': curImg=i; render(); break;
+    case 'showImg': {
+      curImg=i;
+      const vw=$('#viewer'); if(vw) vw.innerHTML=viewerHTML(state.images[i]);
+      document.querySelectorAll('.img-link').forEach((b,k)=>b.classList.toggle('on',k===i));
+      break;
+    }
+    case 'objDone': {
+      objDone.has(i)?objDone.delete(i):objDone.add(i);
+      el.classList.toggle('done',objDone.has(i));
+      const n=document.querySelectorAll('.obj-list li').length;
+      $('#objMeter').innerHTML=objMeterHTML(n);
+      if(objDone.size===n && el.classList.contains('done')) confetti();
+      break;
+    }
+    case 'hideKw':
+      hideKw=!hideKw;
+      $('.content')?.classList.toggle('hidekw',hideKw);
+      document.querySelectorAll('.content mark.peek').forEach(mk=>mk.classList.remove('peek'));
+      el.textContent=hideKw?'👀 핵심어 보이기':'🙈 핵심어 가리기';
+      if(hideKw) toast('가려진 핵심어를 눌러 정답을 확인해 보세요!');
+      break;
+    case 'peek': if(hideKw) el.classList.toggle('peek'); break;
     case 'zoom': {
       const im=state.images[curImg]; if(!im) break;
       const lb=$('#lightbox'); lb.innerHTML=`<img src="${esc(safeUrl(im.url))}" alt=""><div class="c">${esc(im.title)}</div>`; lb.hidden=false; break;
     }
-    case 'addQuiz': edit(()=>state.quiz.push({q:'',a:'O',exp:''})); setTimeout(()=>{ const t=document.querySelectorAll('.qe textarea'); t[t.length-1]?.focus(); },0); break;
+    case 'addQuiz': edit(()=>state.quiz.push(newQuestion(lastQType))); setTimeout(()=>{ const t=document.querySelectorAll('.qe textarea[data-path$=".q"]'); t[t.length-1]?.focus(); },0); break;
+    case 'addChoice': edit(()=>state.quiz[i].choices.push('')); break;
+    case 'delChoice': edit(()=>{
+      const q=state.quiz[i], k=+el.dataset.k, a=+q.a;
+      q.choices.splice(k,1);
+      q.a = String(a===k ? 0 : a>k ? a-1 : a);
+    }); break;
+    case 'pickTheme': state.slideTheme=v; save(); render(); toast(`'${curTheme().name}' 디자인을 적용했습니다.`); break;
+    case 'addTheme': themeEdit=newCustomTheme(); render(); setTimeout(()=>$('#tePreview')?.scrollIntoView({block:'center'}),50); break;
+    case 'editTheme': themeEdit={...state.customThemes.find(c=>c.id===v)}; render(); setTimeout(()=>$('#tePreview')?.scrollIntoView({block:'center'}),50); break;
+    case 'delTheme': {
+      const c=state.customThemes.find(x=>x.id===v);
+      if(!c || !confirm(`'${c.name}' 템플릿을 삭제할까요?`)) break;
+      edit(()=>{ state.customThemes=state.customThemes.filter(x=>x.id!==v); if(state.slideTheme===v) state.slideTheme='classic'; if(themeEdit?.id===v) themeEdit=null; });
+      break;
+    }
+    case 'teStyle': themeEdit.style=v; el.parentNode.querySelectorAll('.btn').forEach(b=>b.classList.toggle('pri',b===el)); $('#tePreview').innerHTML=themePreviewHTML(); break;
+    case 'teNoImg': themeEdit.bgImg=''; render(); break;
+    case 'teCancel': themeEdit=null; render(); break;
+    case 'teSave': {
+      themeEdit.name=themeEdit.name.trim()||'내 템플릿';
+      const k=state.customThemes.findIndex(c=>c.id===themeEdit.id);
+      if(k>=0) state.customThemes[k]=themeEdit; else state.customThemes.push(themeEdit);
+      state.slideTheme=themeEdit.id; themeEdit=null; save(); render();
+      toast('내 템플릿을 저장하고 적용했습니다.');
+      break;
+    }
     case 'delQuiz': if(state.quiz[i].q.trim() && !confirm(`${i+1}번 문항을 삭제할까요?`)) break; edit(()=>state.quiz.splice(i,1)); break;
     case 'mvQuiz': edit(()=>move(state.quiz,i,d)); break;
     case 'setAns': edit(()=>state.quiz[i].a=v); break;
-    case 'ans': quizAns[i]=v; render(); break;
+    case 'ans': {
+      quizAns[i]=v;
+      el.parentNode.querySelectorAll('button').forEach(b=>{ b.classList.toggle('sel',b.dataset.v===v); b.classList.remove('pop'); });
+      void el.offsetWidth; el.classList.add('pop');
+      el.closest('.qi').classList.add('answered');
+      updateQuizProg();
+      break;
+    }
     case 'checkQuiz': {
-      const left=state.quiz.filter((q,k)=>q.q.trim()&&!quizAns[k]).length;
+      const st=quizStats(), left=st.qs.length-st.done;
       if(left && !confirm(`아직 풀지 않은 문항이 ${left}개 있습니다. 채점할까요?`)) break;
-      quizChecked=true; render(); break;
+      quizChecked=true; render();
+      $('#s-quiz')?.scrollIntoView({block:'start'});
+      if(st.auto.length && st.right/st.auto.length>=.8) setTimeout(confetti,250);
+      break;
     }
     case 'resetQuiz': quizAns={}; quizChecked=false; render(); break;
     case 'printWs': printHTML(worksheetHTML(),'portrait'); break;
@@ -829,6 +1315,15 @@ $('#lightbox').addEventListener('click',()=>{ $('#lightbox').hidden=true; });
 
 document.addEventListener('input', e=>{
   const t=e.target;
+  if(t.dataset.ans!==undefined){ // 학생 단답·서술 답안
+    quizAns[+t.dataset.ans]=t.value;
+    t.closest('.qi').classList.toggle('answered', !!t.value.trim());
+    updateQuizProg();
+  }
+  if(t.dataset.te && themeEdit){ // 내 템플릿 편집
+    themeEdit[t.dataset.te] = t.type==='color' ? t.value.slice(1).toUpperCase() : t.value;
+    $('#tePreview').innerHTML=themePreviewHTML();
+  }
   if(t.dataset.path){
     setPath(t.dataset.path, t.value); save();
     if(t.dataset.img!==undefined){ // 사진 주소 입력 → 미리보기 즉시 반영
@@ -840,13 +1335,19 @@ document.addEventListener('input', e=>{
     }
     if(/^images\.\d+\.title$/.test(t.dataset.path)){
       const i=+t.dataset.path.split('.')[1], b=document.querySelectorAll('.img-link')[i];
-      if(b) b.textContent='🖼 '+(t.value||'사진 '+(i+1));
+      const sp=b && b.querySelector('span'); if(sp) sp.textContent=t.value||'사진 '+(i+1);
     }
   }
 });
 document.addEventListener('change', async e=>{
   const t=e.target;
   if(t.dataset.ws){ state.ws[t.dataset.ws]=t.checked; save(); $('.ws-preview').innerHTML=worksheetHTML(); }
+  if(t.dataset.qtype!==undefined){ const i=+t.dataset.qtype; state.quiz[i]=convertQuestion(state.quiz[i],t.value); save(); render(); }
+  if(t.id==='newQType') lastQType=t.value;
+  if(t.dataset.tefile!==undefined && t.files[0] && themeEdit){
+    themeEdit.bgImg=await fileToData(t.files[0]);
+    render(); toast('배경 이미지를 넣었습니다. 글자가 잘 보이는지 미리보기로 확인하세요.');
+  }
   if(t.dataset.file!==undefined && t.files[0]){
     const i=+t.dataset.file, f=t.files[0];
     const data=await fileToData(f);
@@ -857,7 +1358,7 @@ document.addEventListener('change', async e=>{
   if(t.id==='jsonFile' && t.files[0]){
     try{
       const d=JSON.parse(await t.files[0].text());
-      state=normalize(d); quizAns={}; quizChecked=false; curImg=0; save(); render(); toast('수업 자료를 불러왔습니다.');
+      state=normalize(d); quizAns={}; quizChecked=false; objDone=new Set(); curImg=0; save(); render(true); toast('수업 자료를 불러왔습니다.');
     }catch(err){ toast('파일을 읽을 수 없습니다. 이 템플릿에서 저장한 .json 파일인지 확인하세요.'); }
     t.value='';
   }
@@ -889,7 +1390,7 @@ $('#pwModal').addEventListener('mousedown',e=>{ if(e.target.id==='pwModal') clos
 function openPwLogin(){
   pwModal(`<h3>🔒 교사 모드</h3><p class="hint">교사 비밀번호를 입력하세요.</p><input type="password" name="pw" placeholder="비밀번호" inputmode="numeric">`, f=>{
     if(pwHash(f.pw.value)!==state.pw) return '비밀번호가 맞지 않습니다.';
-    teacher=true; render();
+    teacher=true; render(true);
     toast(state.pw===DEFAULT_PW?'교사 모드입니다. 초기 비밀번호(1234)를 사용 중이니 [🔒 비밀번호 변경]을 권장합니다.':'교사 모드: 내용을 수정할 수 있습니다.');
   });
 }
@@ -918,7 +1419,13 @@ document.addEventListener('keydown',e=>{ if(e.key==='Escape' && !$('#pwModal').h
   });
 })();
 
-render();
+/* 스크롤 진행 막대 */
+addEventListener('scroll',()=>{
+  const d=document.documentElement;
+  $('.sprog').style.width=(d.scrollTop/((d.scrollHeight-d.clientHeight)||1)*100)+'%';
+},{passive:true});
+
+render(true);
 </script>
 </body>
 </html>
