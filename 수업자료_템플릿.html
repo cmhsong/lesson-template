@@ -54,7 +54,7 @@ main{max-width:1180px;margin:0 auto;padding:20px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 @media (max-width:860px){.grid2{grid-template-columns:1fr}}
 
-input[type=text],input[type=url],input[type=date],textarea{width:100%;border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:#fff}
+input[type=text],input[type=url],input[type=date],input[type=password],textarea{width:100%;border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:#fff}
 input:focus,textarea:focus{outline:2px solid var(--pri-l);border-color:var(--pri)}
 textarea{resize:vertical;min-height:70px}
 label.f{display:block;font-size:12px;color:var(--sub);font-weight:600;margin-bottom:3px}
@@ -248,15 +248,21 @@ label.f{display:block;font-size:12px;color:var(--sub);font-weight:600;margin-bot
 
 /* 비밀번호 창 */
 #pwModal{position:fixed;inset:0;background:rgba(10,14,25,.55);z-index:150;display:flex;align-items:center;justify-content:center;padding:20px}
-#pwModal .box{background:#fff;border-radius:14px;padding:22px 24px;width:min(360px,100%);box-shadow:0 10px 40px rgba(0,0,0,.25)}
-#pwModal h3{margin:0 0 4px;font-size:18px}
-#pwModal .hint{margin:0 0 14px}
+#pwModal .box{background:#fff;border-radius:16px;padding:26px 28px;width:min(420px,100%);font-size:16px;box-shadow:0 10px 40px rgba(0,0,0,.25)}
+#pwModal h3{margin:0 0 6px;font-size:24px}
+#pwModal label.f{font-size:15px;color:var(--ink);margin-top:4px}
+#pwModal input{font-size:18px;padding:10px 12px}
+#pwModal .act .btn{font-size:16px;padding:9px 18px}
+#pwModal .hint{margin:0 0 14px;font-size:15px}
 #pwModal input{margin-bottom:8px}
-#pwModal .msg{color:var(--x);font-size:13px;min-height:20px}
+#pwModal .msg{color:var(--x);font-size:15px;font-weight:700;min-height:22px}
 #pwModal .act{display:flex;justify-content:flex-end;gap:8px;margin-top:6px}
 .t-only{display:none!important}
 body.teacher .t-only{display:inline-flex!important}
 .teacher-band .btn{margin-left:8px;vertical-align:middle}
+.teacher-band{font-size:14px;padding:7px 12px}
+.pw-btn{font-size:17px;font-weight:800;padding:8px 18px;background:#e8590c;border-color:#e8590c;color:#fff;box-shadow:0 3px 0 #a63c06;letter-spacing:.02em}
+.pw-btn:hover{background:#d9480f;border-color:#d9480f;color:#fff}
 
 #toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:#1d2433;color:#fff;padding:10px 18px;border-radius:10px;font-size:14px;opacity:0;pointer-events:none;transition:.25s;z-index:200}
 #toast.show{opacity:1;transform:translateX(-50%)}
@@ -458,7 +464,7 @@ textarea.sa{min-height:90px}
         <button class="btn" data-act="loadJson" title="저장한 수업 자료 불러오기">📂 불러오기</button>
       </div>
     </div>
-    <div class="teacher-band">교사 모드 · 모든 항목을 수정할 수 있습니다. 입력 내용은 이 브라우저에 자동 저장되며, 다른 컴퓨터에서 쓰려면 [💾 파일 저장]을 이용하세요.<button class="btn sm" data-act="chpw">🔒 비밀번호 변경</button></div>
+    <div class="teacher-band">교사 모드 · 모든 항목을 수정할 수 있습니다. 입력 내용은 이 브라우저에 자동 저장되며, 다른 컴퓨터에서 쓰려면 [💾 파일 저장]을 이용하세요.<button class="btn pw-btn" data-act="chpw">🔒 비밀번호 변경</button></div>
     <div class="sprog"></div>
   </header>
   <main id="view"></main>
